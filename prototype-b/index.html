@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="FIELD — 흑백에서 컬러로 전환되는 사진 저널 포트폴리오 프로토타입"
+    />
+    <title>FIELD — Journal Prototype</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script src="script.js" defer></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#journal">작품 목록으로 건너뛰기</a>
+
+    <header class="site-header">
+      <div class="header-side header-side--left" aria-label="주요 메뉴">
+        <a href="#journal">Journal</a>
+        <a href="#about">Photographer</a>
+        <a href="#contact">Contact</a>
+      </div>
+
+      <a class="wordmark" href="#top" aria-label="FIELD 홈">FIELD</a>
+
+      <div class="header-side header-side--right" aria-label="보조 메뉴">
+        <span>Seoul, KR</span>
+        <a href="#index">Index</a>
+        <a href="#contact">Instagram</a>
+      </div>
+
+      <button
+        class="menu-toggle"
+        type="button"
+        aria-expanded="false"
+        aria-controls="mobile-menu"
+      >
+        <span>Menu</span>
+        <span class="menu-toggle__mark" aria-hidden="true"></span>
+      </button>
+    </header>
+
+    <nav class="mobile-menu" id="mobile-menu" aria-label="모바일 메뉴">
+      <div class="mobile-menu__links">
+        <a href="#journal">Journal</a>
+        <a href="#about">Photographer</a>
+        <a href="#index">Index</a>
+        <a href="#contact">Contact</a>
+      </div>
+      <p>Independent visual stories<br />Seoul, South Korea</p>
+    </nav>
+
+    <main id="top">
+      <section class="intro" aria-labelledby="page-title">
+        <p class="eyebrow">Selected journal · 2024—2026</p>
+        <h1 id="page-title">Ordinary scenes,<br />held a little longer.</h1>
+        <p class="intro__note">
+          도시의 표면과 그 안을 지나는 사람들.<br />
+          이름 없이 흘러가는 순간을 기록합니다.
+        </p>
+      </section>
+
+      <section class="journal" id="journal" aria-labelledby="journal-title">
+        <div class="journal-toolbar" id="index">
+          <h2 id="journal-title">Journal</h2>
+          <div class="filters" aria-label="작품 분류">
+            <button class="filter is-active" type="button" data-filter="all">All</button>
+            <button class="filter" type="button" data-filter="people">People</button>
+            <button class="filter" type="button" data-filter="places">Places</button>
+            <button class="filter" type="button" data-filter="quiet">Quiet</button>
+          </div>
+          <p class="journal-count"><span id="visible-count">10</span> stories</p>
+        </div>
+
+        <div class="journal-grid">
+          <article class="journal-card" data-category="people" data-title="Before Turning" data-place="Daegu" data-year="2026">
+            <button class="image-button" type="button" aria-label="Before Turning 사진 크게 보기">
+              <img src="assets/alley-arrival.jpg" alt="좁은 골목에서 뒤를 돌아보는 사람" width="1179" height="1155" fetchpriority="high" />
+            </button>
+            <div class="card-meta"><h3>Before Turning</h3><p>Daegu · 2026</p></div>
+          </article>
+
+          <article class="journal-card" data-category="places" data-title="Last Platform" data-place="Dawn Line" data-year="2025">
+            <button class="image-button" type="button" aria-label="Last Platform 사진 크게 보기">
+              <img src="assets/dawn-platform.jpg" alt="해 뜨기 전 지상철 승강장에 서 있는 사람" width="1086" height="1449" fetchpriority="high" />
+            </button>
+            <div class="card-meta"><h3>Last Platform</h3><p>Dawn Line · 2025</p></div>
+          </article>
+
+          <article class="journal-card" data-category="quiet" data-title="Soft Territory" data-place="Home" data-year="2026">
+            <button class="image-button" type="button" aria-label="Soft Territory 사진 크게 보기">
+              <img src="assets/quiet-room.jpg" alt="얇은 천막 아래 조용히 앉아 있는 고양이" width="1179" height="1542" fetchpriority="high" />
+            </button>
+            <div class="card-meta"><h3>Soft Territory</h3><p>Home · 2026</p></div>
+          </article>
+
+          <article class="journal-card" data-category="people" data-title="Passing Wall" data-place="West District" data-year="2025">
+            <button class="image-button" type="button" aria-label="Passing Wall 사진 크게 보기">
+              <img src="assets/city-bicycle.jpg" alt="낡은 건물 벽을 따라 자전거를 타는 사람" width="1086" height="1448" loading="lazy" />
+            </button>
+            <div class="card-meta"><h3>Passing Wall</h3><p>West District · 2025</p></div>
+          </article>
+
+          <article class="journal-card" data-category="places" data-title="Unclaimed Ground" data-place="Dalseong" data-year="2026">
+            <button class="image-button" type="button" aria-label="Unclaimed Ground 사진 크게 보기">
+              <img src="assets/overgrown-lot.jpg" alt="겨울 덤불이 우거진 빈터로 걸어가는 사람" width="1144" height="1434" loading="lazy" />
+            </button>
+            <div class="card-meta"><h3>Unclaimed Ground</h3><p>Dalseong · 2026</p></div>
+          </article>
+
+          <article class="journal-card" data-category="people" data-title="Low Tide Work" data-place="East Harbor" data-year="2024">
+            <button class="image-button" type="button" aria-label="Low Tide Work 사진 크게 보기">
+              <img src="assets/mist-harbor.jpg" alt="안개 낀 항구에서 작은 배를 준비하는 어부" width="1086" height="1448" loading="lazy" />
+            </button>
+            <div class="card-meta"><h3>Low Tide Work</h3><p>East Harbor · 2024</p></div>
+          </article>
+
+          <article class="journal-card" data-category="places" data-title="After the Rain" data-place="Downtown" data-year="2025">
+            <button class="image-button" type="button" aria-label="After the Rain 사진 크게 보기">
+              <img src="assets/rain-crossing.jpg" alt="비 내리는 도심 교차로를 우산을 쓰고 건너는 사람들" width="1086" height="1448" loading="lazy" />
+            </button>
+            <div class="card-meta"><h3>After the Rain</h3><p>Downtown · 2025</p></div>
+          </article>
+
+          <article class="journal-card" data-category="people" data-title="The Long Way In" data-place="Old Campus" data-year="2026">
+            <button class="image-button" type="button" aria-label="The Long Way In 사진 크게 보기">
+              <img src="assets/winter-walk.jpg" alt="카메라를 들고 오래된 건물 사이를 걷는 사람" width="1179" height="1422" loading="lazy" />
+            </button>
+            <div class="card-meta"><h3>The Long Way In</h3><p>Old Campus · 2026</p></div>
+          </article>
+
+          <article class="journal-card" data-category="places" data-title="One Light On" data-place="Night Block" data-year="2024">
+            <button class="image-button" type="button" aria-label="One Light On 사진 크게 보기">
+              <img src="assets/night-store.jpg" alt="늦은 밤 불이 켜진 작은 가게 앞을 지나는 사람" width="1086" height="1448" loading="lazy" />
+            </button>
+            <div class="card-meta"><h3>One Light On</h3><p>Night Block · 2024</p></div>
+          </article>
+
+          <article class="journal-card" data-category="quiet" data-title="Four O'Clock" data-place="Home" data-year="2026">
+            <button class="image-button" type="button" aria-label="Four O'Clock 사진 크게 보기">
+              <img src="assets/afternoon-cat.jpg" alt="푸른 담요에 누워 장난치는 고양이" width="1179" height="1446" loading="lazy" />
+            </button>
+            <div class="card-meta"><h3>Four O'Clock</h3><p>Home · 2026</p></div>
+          </article>
+        </div>
+      </section>
+
+      <section class="about" id="about" aria-labelledby="about-title">
+        <p class="section-index">01 / About</p>
+        <div>
+          <h2 id="about-title">Photographs about the distance between a place and the people who remember it.</h2>
+          <p>
+            FIELD는 사진기자 포트폴리오를 위한 가상의 프로토타입입니다. 실제 소개글과 경력,
+            연락처는 다음 디자인 단계에서 교체할 수 있습니다.
+          </p>
+        </div>
+      </section>
+    </main>
+
+    <footer id="contact">
+      <a href="mailto:hello@example.com">hello@example.com</a>
+      <p>Available for editorial assignments</p>
+      <p>© FIELD, 2026</p>
+    </footer>
+
+    <dialog class="viewer" aria-label="사진 상세 보기">
+      <div class="viewer__bar">
+        <p class="viewer__counter"><span id="viewer-current">01</span> / <span id="viewer-total">10</span></p>
+        <button class="viewer__close" type="button" aria-label="상세 보기 닫기">Close</button>
+      </div>
+      <div class="viewer__stage">
+        <button class="viewer__nav viewer__nav--prev" type="button" aria-label="이전 사진">Prev</button>
+        <figure>
+          <img alt="" />
+          <figcaption><strong></strong><span></span></figcaption>
+        </figure>
+        <button class="viewer__nav viewer__nav--next" type="button" aria-label="다음 사진">Next</button>
+      </div>
+    </dialog>
+  </body>
+</html>
