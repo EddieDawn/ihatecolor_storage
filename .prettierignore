@@ -1,0 +1,15 @@
+.astro/
+dist/
+node_modules/
+.pnpm-store/
+pnpm-lock.yaml
+
+# Approved visual references must remain unchanged.
+prototype-b/
+prototype-c/
+
+# Binary content and historical/project documents are maintained separately.
+content/
+archive/
+docs/
+AGENTS.md
