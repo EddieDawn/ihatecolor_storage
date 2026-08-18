@@ -175,3 +175,45 @@ src/data/photos/
 
 이 문서에는 Day 2에 이어서 진행하는 작업을 아래에 계속 추가한다.
 
+## 15. Docker 개발환경 구성
+
+확정된 기술 스택을 기준으로 실제 Astro와 Docker 개발 기반을 구성했다.
+
+- Node.js `24.19.0`
+- pnpm `11.22.0`
+- Astro `7.2.2`
+- TypeScript `6.0.3` strict mode
+- `@astrojs/check` `0.9.10`
+
+TypeScript 최신 메이저 버전은 `@astrojs/check`의 peer dependency 범위를 벗어나 사용하지 않았다. 지원 범위 내 최신 안정 버전인 `6.0.3`으로 고정했다.
+
+pnpm의 의존성 설치 스크립트 보호 기능이 `esbuild`의 postinstall을 차단하는 것을 확인했다. 모든 스크립트를 허용하지 않고 `pnpm-workspace.yaml`의 `allowBuilds`에 `esbuild`만 명시적으로 허용했다.
+
+다음 파일을 추가했다.
+
+- `package.json`
+- `pnpm-lock.yaml`
+- `pnpm-workspace.yaml`
+- `astro.config.mjs`
+- `tsconfig.json`
+- `Dockerfile`
+- `compose.yaml`
+- `.dockerignore`
+- `.gitignore`
+- `.env.example`
+- `src/env.d.ts`
+- `src/pages/index.astro`
+- `src/pages/health.ts`
+- `docs/DEVELOPMENT.md`
+
+제품 UI는 아직 구현하지 않았다. 루트 경로에는 빈 자리표시자만 두고 `/health`에서 개발환경 상태를 텍스트로 반환한다.
+
+검증 결과:
+
+- Docker 이미지 빌드 성공
+- `pnpm install --frozen-lockfile` 성공
+- `astro check`: 오류 0, 경고 0, 힌트 0
+- `astro build`: 정적 페이지 빌드 성공
+- Compose 서비스 상태: `healthy`
+- `http://localhost:4321/health`: HTTP 200 및 정상 메시지 반환
+

@@ -1,6 +1,6 @@
 # 기술 스택 및 아키텍처 결정
 
-> 상태: Approved / 구현 전 기준
+> 상태: Approved / Development Baseline v1.0
 > 
 > 결정일: 2026-08-18
 
@@ -14,24 +14,35 @@
 
 | 영역 | 선택 | 상태 | 선택 이유 |
 |---|---|---|---|
-| 웹 프레임워크 | Astro | 확정 | 콘텐츠 중심 포트폴리오를 정적으로 생성하고 필요한 부분에만 클라이언트 동작을 추가하기 적합하다. |
-| 언어 | TypeScript strict mode | 확정 | 콘텐츠와 CMS 응답의 필드 누락 및 타입 오류를 구현 단계에서 발견하기 위해 사용한다. |
-| 패키지 매니저 | pnpm | 확정 | 엄격한 의존성 구조, 설치 캐시, 향후 사이트와 CMS Studio를 함께 관리할 가능성을 고려했다. |
+| 웹 프레임워크 | Astro 7.2.2 | 확정 | 콘텐츠 중심 포트폴리오를 정적으로 생성하고 필요한 부분에만 클라이언트 동작을 추가하기 적합하다. |
+| 언어 | TypeScript 6.0.3 / strict mode | 확정 | 콘텐츠와 CMS 응답의 필드 누락 및 타입 오류를 구현 단계에서 발견하기 위해 사용한다. |
+| 패키지 매니저 | pnpm 11.22.0 | 확정 | 엄격한 의존성 구조, 설치 캐시, 향후 사이트와 CMS Studio를 함께 관리할 가능성을 고려했다. |
 | Node.js | 24.19.0 LTS | 확정 | 회사와 집에서 동일한 실행 환경을 재현할 수 있도록 정확한 버전을 고정한다. |
 | 초기 콘텐츠 소스 | 로컬 Astro Content Collection | 확정 | CMS가 준비되기 전에도 실제 데이터 계약에 가까운 모크 콘텐츠로 개발하기 위해 사용한다. |
 | 최종 콘텐츠 소스 | Sanity CMS | 확정 | 사진작가가 별도의 개발 작업 없이 사진과 메타데이터를 직접 관리할 수 있는 편집 화면을 제공한다. |
 | 개발환경 | Docker | 확정 | 운영체제와 장소에 관계없이 동일한 Node.js와 pnpm 환경을 사용하기 위해 구성한다. |
 
-## 3. 아직 고정하지 않은 버전
+## 3. 패키지 버전 정책
 
-다음 버전은 실제 프로젝트 초기화 시점의 안정 버전을 확인한 후 lockfile과 Docker 설정에 정확히 기록한다.
+현재 개발 기반에는 다음 버전을 정확히 고정했다.
 
-- Astro의 정확한 버전
-- pnpm의 정확한 안정 버전
+- Astro `7.2.2`
+- pnpm `11.22.0`
+- TypeScript `6.0.3`
+- `@astrojs/check` `0.9.10`
+- ESLint `10.8.1`
+- `eslint-plugin-astro` `3.1.0`
+- Prettier `3.9.6`
+- `prettier-plugin-astro` `0.14.1`
+
+다음 버전은 해당 기능을 도입할 때 안정 버전을 확인한 후 고정한다.
+
 - Sanity SDK 및 Studio의 정확한 버전
 - 테스트 도구의 정확한 버전
 
-릴리스 후보나 실험 버전은 명시적인 필요가 없는 한 사용하지 않는다. 버전을 결정한 후 `pnpm-lock.yaml`을 Git에 포함한다.
+릴리스 후보나 실험 버전은 명시적인 필요가 없는 한 사용하지 않는다. `package.json`, `pnpm-lock.yaml`, `pnpm-workspace.yaml`과 Docker 설정을 함께 갱신하고 타입 검사 및 정적 빌드를 다시 수행한다.
+
+`@astrojs/check 0.9.10`의 peer dependency 범위가 TypeScript 7을 지원하지 않아, 지원 범위 내 최신 안정 버전인 TypeScript `6.0.3`을 사용한다.
 
 ## 4. 콘텐츠 모델
 
@@ -135,31 +146,54 @@ Docker는 개발 도구 버전을 통일하지만 소스 코드와 비밀값을 
 
 초기 Docker 구성은 Astro 애플리케이션 하나만 실행한다. 관리형 Sanity를 사용하므로 데이터베이스나 CMS 서버를 로컬 Compose 서비스로 먼저 추가하지 않는다. 실제로 두 번째 서비스가 필요해질 때 `compose.yaml`을 확장한다.
 
+현재 구현 파일:
+
+- `Dockerfile`: Node.js `24.19.0`, pnpm `11.22.0`, Git과 SSH 클라이언트를 포함한 개발 이미지
+- `compose.yaml`: Astro 개발 서버, bind mount, `node_modules`와 pnpm 저장소 volume, healthcheck
+- `.dockerignore`: 이미지 빌드에 불필요한 프로토타입, 문서, 로컬 출력과 비밀값 제외
+- `.env.example`: 호스트의 Astro 포트 예시
+- `pnpm-workspace.yaml`: 의존성 설치 스크립트 중 `esbuild`만 명시적으로 허용
+- `.devcontainer/devcontainer.json`: 기존 Compose의 `web` 서비스를 재사용하는 VS Code Dev Container
+- `.vscode/extensions.json`: 프로젝트 및 컨테이너에 필요한 VS Code 확장 프로그램 추천 목록
+- `.vscode/settings.json`: 저장 시 포맷, ESLint 자동 수정과 Astro 포매터 설정
+- `eslint.config.js`: TypeScript와 Astro를 검사하는 ESLint Flat Config
+- `.prettierrc.mjs`: Astro 공식 Prettier 플러그인 설정
+
+Windows와 Docker Desktop의 bind mount에서도 파일 변경을 감지할 수 있도록 개발 컨테이너에서는 polling을 사용한다. Astro 텔레메트리는 컨테이너에서 비활성화한다.
+
+VS Code에서는 Dev Containers 확장 프로그램으로 프로젝트를 열면 Astro, ESLint, Prettier, YAML, markdownlint 확장 프로그램이 컨테이너에 자동 설치된다. Dev Containers와 Containers 확장 프로그램 자체는 호스트 VS Code에 설치한다. 비교 기준인 `prototype-b/`와 `prototype-c/`는 ESLint와 Prettier 검사 대상에서 제외한다.
+
+상세 실행 방법은 [`DEVELOPMENT.md`](./DEVELOPMENT.md)를 따른다.
+
 ## 9. 예정된 검증 도구
 
 다음 도구는 필요 시 도입하며 아직 버전을 확정하지 않았다.
 
 - Vitest: 콘텐츠 변환, 스키마와 유틸리티 단위 테스트
 - Playwright: 랜딩, 사진 목록, 페이지네이션, 라이트박스와 키보드 동작 검증
+- ESLint: JavaScript, TypeScript와 Astro 정적 분석
+- Prettier: Astro를 포함한 관리 대상 파일의 포맷 검사
+- `@astrojs/check`: Astro와 TypeScript 진단
 - Astro 빌드 검사: 콘텐츠 스키마와 정적 생성 오류 검증
 - Docker 빌드 검사: 회사와 집에서 동일한 명령으로 실행 가능한지 검증
 
 ## 10. 초기 구현 순서
 
-1. Astro와 TypeScript strict 프로젝트 초기화
-2. pnpm 및 Node.js 버전 고정
-3. Docker 개발환경과 실행 명령 구성
-4. `Photo` 스키마와 로컬 Content Collection 작성
-5. 모크 콘텐츠 기반의 랜딩 → 목록 → 상세 흐름 구현
-6. 이미지 최적화, 접근성과 테스트 적용
-7. Sanity 스키마 및 콘텐츠 어댑터 연결
-8. 배포 환경과 CMS 게시 후 갱신 방식을 확정
+1. [완료] Astro와 TypeScript strict 프로젝트 초기화
+2. [완료] pnpm 및 Node.js 버전 고정
+3. [완료] Docker 개발환경과 실행 명령 구성
+4. [예정] `Photo` 스키마와 로컬 Content Collection 작성
+5. [예정] 모크 콘텐츠 기반의 랜딩 → 목록 → 상세 흐름 구현
+6. [예정] 이미지 최적화, 접근성과 테스트 적용
+7. [예정] Sanity 스키마 및 콘텐츠 어댑터 연결
+8. [예정] 배포 환경과 CMS 게시 후 갱신 방식을 확정
 
 ## 11. 공식 참고 문서
 
 - [Astro Content Collections](https://docs.astro.build/en/guides/content-collections/)
 - [Astro Images](https://docs.astro.build/en/guides/images/)
 - [pnpm Docker](https://pnpm.io/docker)
+- [pnpm Build Settings](https://pnpm.io/settings/build)
 - [Node.js 릴리스 현황](https://nodejs.org/en/about/previous-releases)
 - [Sanity 이미지 타입](https://www.sanity.io/docs/studio/image-type)
 

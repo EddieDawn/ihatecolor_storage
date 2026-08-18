@@ -1,0 +1,17 @@
+.git
+.agents
+.codex
+.astro
+dist
+node_modules
+.pnpm-store
+
+.env
+.env.*
+!.env.example
+
+archive
+content
+docs
+prototype-b
+prototype-c
