@@ -1,6 +1,6 @@
 # Day 2 — 기획 보완과 기술 스택 확정
 
-> 작업일: 2026-08-18  
+> 작업일: 2026-08-18
 > 프로젝트: 웨딩 스냅 사진작가 포트폴리오 사이트
 
 ## 1. 오늘 논의한 개발 방식
@@ -71,15 +71,15 @@ EXIF는 사진 파일에 포함될 수 있는 촬영 메타데이터다. 촬영 
 
 다음 기술 선택을 확정했다.
 
-| 영역 | 선택 |
-|---|---|
-| 웹 프레임워크 | Astro |
-| 언어 | TypeScript strict mode |
-| 패키지 매니저 | pnpm |
-| Node.js | 24.19.0 LTS |
+| 영역             | 선택                          |
+| ---------------- | ----------------------------- |
+| 웹 프레임워크    | Astro                         |
+| 언어             | TypeScript strict mode        |
+| 패키지 매니저    | pnpm                          |
+| Node.js          | 24.19.0 LTS                   |
 | 초기 콘텐츠 소스 | 로컬 Astro Content Collection |
-| 최종 콘텐츠 소스 | 관리형 Sanity CMS |
-| 개발환경 | Docker |
+| 최종 콘텐츠 소스 | 관리형 Sanity CMS             |
+| 개발환경         | Docker                        |
 
 Astro와 pnpm의 정확한 패키지 버전은 프로젝트를 초기화할 때 안정 버전을 확인한 뒤 lockfile과 Docker 설정에 고정하기로 했다. 릴리스 후보와 실험 버전은 명시적인 필요가 없다면 사용하지 않는다.
 
@@ -158,11 +158,11 @@ src/data/photos/
 
 - [`../docs/DESIGN_SYSTEM.md`](../docs/DESIGN_SYSTEM.md)
 
-## 12. 현재 상태
+## 12. 이 시점의 상태
 
 오늘은 구현에 들어가기 전에 기획과 기술 결정을 문서화했다. 아직 Astro 프로젝트나 Docker 파일은 생성하지 않았다. 기존 `prototype-b/`와 `prototype-c/`도 수정하지 않았다.
 
-## 13. 다음 작업
+## 13. 이 시점에서 정한 다음 작업
 
 1. pnpm의 정확한 안정 버전 확정
 2. Astro 안정 버전으로 TypeScript strict 프로젝트 초기화
@@ -217,3 +217,58 @@ pnpm의 의존성 설치 스크립트 보호 기능이 `esbuild`의 postinstall�
 - Compose 서비스 상태: `healthy`
 - `http://localhost:4321/health`: HTTP 200 및 정상 메시지 반환
 
+## 16. 개발 도구와 VS Code Dev Container 구성
+
+Docker 기반 개발환경을 VS Code에서 직접 사용할 수 있도록 Dev Container를 추가했다. 별도의 컨테이너 구성을 중복해서 만들지 않고 `compose.yaml`의 `web` 서비스를 재사용한다.
+
+컨테이너에 자동 설치하도록 지정한 확장 프로그램:
+
+- Astro
+- ESLint
+- Prettier
+- YAML
+- markdownlint
+
+호스트 VS Code에는 Dev Containers와 Containers 확장 프로그램을 추천한다. 저장 시 Prettier 포맷과 ESLint 자동 수정을 적용하고, Astro 파일도 같은 포맷 규칙을 사용하도록 프로젝트 설정을 추가했다.
+
+Extension만 설치해서는 환경이 재현되지 않으므로 프로젝트에도 다음 도구와 명령을 추가했다.
+
+- ESLint와 `eslint-plugin-astro`
+- TypeScript ESLint
+- Prettier와 `prettier-plugin-astro`
+- `pnpm lint`
+- `pnpm format:check`
+- `pnpm validate`
+
+`pnpm validate`는 lint, format 검사, Astro 진단과 정적 빌드를 순서대로 실행한다. 비교 기준인 `prototype-b/`와 `prototype-c/`는 자동 수정과 검사 대상에서 제외했다.
+
+## 17. 컨테이너 Git과 GitHub Actions 구성
+
+`node:bookworm-slim`에는 Git이 기본 포함되지 않아 개발 이미지에 다음 도구를 추가했다.
+
+- Git
+- OpenSSH Client
+- CA 인증서
+
+Windows bind mount의 소유권 차이로 Git이 저장소를 차단하지 않도록 `/workspace` 한 경로만 `safe.directory`로 지정했다. GitHub 인증 정보와 SSH 개인 키는 이미지에 포함하지 않는다.
+
+PR마다 동일한 품질 검사를 실행하도록 `.github/workflows/ci.yml`을 작성했다.
+
+- `main` 대상 PR에서 실행
+- `main` push에서 실행
+- Node.js `24.19.0`과 pnpm `11.22.0` 사용
+- `pnpm install --frozen-lockfile` 실행
+- `pnpm validate` 실행
+- 외부 Action을 전체 commit SHA로 고정
+
+현재 Docker 이미지는 운영 배포용이 아니라 개발환경용이므로 PR마다 `docker build`를 실행하지 않는다. 배포용 이미지가 추가될 때 Docker 빌드 Check를 별도로 추가한다.
+
+Workflow를 원격 저장소에 push하면 CI 결과가 생성된다. CI 실패 시 병합까지 차단하려면 GitHub Ruleset에서 `main` 브랜치의 `Validate and build`를 필수 Check로 별도 지정해야 한다.
+
+## 18. 현재 다음 작업
+
+1. 개발환경과 CI 변경사항을 커밋하고 원격 브랜치에 push
+2. `main` 대상 PR에서 `Validate and build` 최초 실행 확인
+3. GitHub Ruleset에 `Validate and build` 필수 Check 등록
+4. `Photo` 스키마와 로컬 Content Collection 작성
+5. 모크 콘텐츠 기반의 첫 번째 사용자 흐름 구현

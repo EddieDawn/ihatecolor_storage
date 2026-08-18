@@ -45,6 +45,14 @@ docker compose logs --follow web
 
 ## 4. 전체 검증
 
+개발 서버가 실행 중이면 기존 컨테이너에서 검증한다.
+
+```powershell
+docker compose exec web pnpm validate
+```
+
+개발 서버를 시작하지 않고 일회성 컨테이너에서 검증하려면 다음 명령을 사용한다.
+
 ```powershell
 docker compose run --rm --no-deps web sh -lc "pnpm install --frozen-lockfile --store-dir /pnpm/store && pnpm validate"
 ```
@@ -80,7 +88,11 @@ docker compose exec web sh
 node --version
 pnpm --version
 pnpm exec astro --version
+git --version
+git branch --show-current
 ```
+
+Git과 SSH 클라이언트는 이미지에 포함되지만 GitHub 인증 정보나 SSH 개인 키 자체를 이미지에 넣지는 않는다. `push`와 `pull` 인증은 호스트의 Git credential 또는 SSH agent 전달을 별도로 사용한다.
 
 ## 6. 종료
 
@@ -111,3 +123,23 @@ ASTRO_PORT=4322
 pnpm은 검토되지 않은 의존성 설치 스크립트를 기본적으로 차단한다. 현재는 Astro가 사용하는 `esbuild`만 `pnpm-workspace.yaml`에서 허용한다.
 
 새 의존성을 추가한 뒤 `ERR_PNPM_IGNORED_BUILDS`가 발생하면 모든 스크립트를 일괄 허용하지 않는다. 해당 패키지의 목적과 설치 스크립트를 검토한 후 필요한 패키지만 `allowBuilds`에 추가한다.
+
+## 9. Pull Request CI
+
+`.github/workflows/ci.yml`은 다음 시점에 `pnpm validate`를 실행한다.
+
+- `main` 브랜치를 대상으로 하는 Pull Request
+- `main` 브랜치에 반영된 push
+- GitHub Actions 화면에서의 수동 실행
+
+PR에 새 커밋이 추가되면 같은 PR의 이전 CI 실행은 취소되고 최신 커밋만 검사한다. 현재 CI는 애플리케이션의 정적 빌드를 검사하지만 개발용 `Dockerfile`의 이미지 빌드는 반복하지 않는다.
+
+CI 실패 시 병합을 실제로 막으려면 Workflow를 원격 저장소에 먼저 push하고 한 번 실행한 뒤 GitHub에서 Ruleset을 설정한다.
+
+1. `Settings → Rules → Rulesets`로 이동한다.
+2. 기본 브랜치인 `main`을 대상으로 Branch Ruleset을 만든다.
+3. `Require a pull request before merging`을 활성화한다.
+4. `Require status checks to pass`를 활성화한다.
+5. `Validate and build`를 필수 Check로 추가한다.
+
+Ruleset은 GitHub 서버 설정이므로 Git 저장소의 파일에는 포함되지 않는다.

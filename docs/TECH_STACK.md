@@ -1,8 +1,9 @@
 # 기술 스택 및 아키텍처 결정
 
-> 상태: Approved / Development Baseline v1.0
-> 
+> 상태: Approved / Development Baseline v1.1
+>
 > 결정일: 2026-08-18
+> 최종 갱신일: 2026-08-18
 
 ## 1. 문서 목적
 
@@ -12,15 +13,18 @@
 
 ## 2. 확정된 기술 스택
 
-| 영역 | 선택 | 상태 | 선택 이유 |
-|---|---|---|---|
-| 웹 프레임워크 | Astro 7.2.2 | 확정 | 콘텐츠 중심 포트폴리오를 정적으로 생성하고 필요한 부분에만 클라이언트 동작을 추가하기 적합하다. |
-| 언어 | TypeScript 6.0.3 / strict mode | 확정 | 콘텐츠와 CMS 응답의 필드 누락 및 타입 오류를 구현 단계에서 발견하기 위해 사용한다. |
-| 패키지 매니저 | pnpm 11.22.0 | 확정 | 엄격한 의존성 구조, 설치 캐시, 향후 사이트와 CMS Studio를 함께 관리할 가능성을 고려했다. |
-| Node.js | 24.19.0 LTS | 확정 | 회사와 집에서 동일한 실행 환경을 재현할 수 있도록 정확한 버전을 고정한다. |
-| 초기 콘텐츠 소스 | 로컬 Astro Content Collection | 확정 | CMS가 준비되기 전에도 실제 데이터 계약에 가까운 모크 콘텐츠로 개발하기 위해 사용한다. |
-| 최종 콘텐츠 소스 | Sanity CMS | 확정 | 사진작가가 별도의 개발 작업 없이 사진과 메타데이터를 직접 관리할 수 있는 편집 화면을 제공한다. |
-| 개발환경 | Docker | 확정 | 운영체제와 장소에 관계없이 동일한 Node.js와 pnpm 환경을 사용하기 위해 구성한다. |
+| 영역             | 선택                           | 상태      | 선택 이유                                                                                       |
+| ---------------- | ------------------------------ | --------- | ----------------------------------------------------------------------------------------------- |
+| 웹 프레임워크    | Astro 7.2.2                    | 확정      | 콘텐츠 중심 포트폴리오를 정적으로 생성하고 필요한 부분에만 클라이언트 동작을 추가하기 적합하다. |
+| 언어             | TypeScript 6.0.3 / strict mode | 확정      | 콘텐츠와 CMS 응답의 필드 누락 및 타입 오류를 구현 단계에서 발견하기 위해 사용한다.              |
+| 패키지 매니저    | pnpm 11.22.0                   | 확정      | 엄격한 의존성 구조, 설치 캐시, 향후 사이트와 CMS Studio를 함께 관리할 가능성을 고려했다.        |
+| Node.js          | 24.19.0 LTS                    | 확정      | 회사와 집에서 동일한 실행 환경을 재현할 수 있도록 정확한 버전을 고정한다.                       |
+| 초기 콘텐츠 소스 | 로컬 Astro Content Collection  | 확정      | CMS가 준비되기 전에도 실제 데이터 계약에 가까운 모크 콘텐츠로 개발하기 위해 사용한다.           |
+| 최종 콘텐츠 소스 | Sanity CMS                     | 확정      | 사진작가가 별도의 개발 작업 없이 사진과 메타데이터를 직접 관리할 수 있는 편집 화면을 제공한다.  |
+| 개발환경         | Docker                         | 확정      | 운영체제와 장소에 관계없이 동일한 Node.js와 pnpm 환경을 사용하기 위해 구성한다.                 |
+| 에디터 환경      | VS Code Dev Containers         | 확정      | Compose의 `web` 서비스를 재사용하고 프로젝트 확장 프로그램을 자동 설치한다.                     |
+| 코드 품질        | ESLint 10.8.1 / Prettier 3.9.6 | 확정      | 정적 분석과 포맷팅의 역할을 분리하고 로컬과 CI에서 동일한 명령을 실행한다.                      |
+| CI               | GitHub Actions                 | 구성 완료 | PR과 `main` push에서 `pnpm validate`를 실행한다.                                                |
 
 ## 3. 패키지 버전 정책
 
@@ -30,6 +34,9 @@
 - pnpm `11.22.0`
 - TypeScript `6.0.3`
 - `@astrojs/check` `0.9.10`
+- `@eslint/js` `10.0.1`
+- `@typescript-eslint/parser` `8.67.0`
+- `typescript-eslint` `8.67.0`
 - ESLint `10.8.1`
 - `eslint-plugin-astro` `3.1.0`
 - Prettier `3.9.6`
@@ -52,25 +59,25 @@
 
 필수 필드:
 
-| 필드 | 목적 |
-|---|---|
-| `id` | 데이터 소스가 바뀌어도 작품을 식별하는 영구 ID |
-| `slug` | `/photos/[slug]` 형식의 안정적인 공개 URL |
-| `image` | 로컬 이미지 또는 CMS 이미지 참조 |
-| `title` | 작품명 |
-| `altText` | 이미지의 의미를 전달하는 대체 텍스트 |
-| `status` | `draft` 또는 `published` 게시 상태 |
-| `sortOrder` | 목록과 랜딩에서의 표시 순서 |
+| 필드        | 목적                                           |
+| ----------- | ---------------------------------------------- |
+| `id`        | 데이터 소스가 바뀌어도 작품을 식별하는 영구 ID |
+| `slug`      | `/photos/[slug]` 형식의 안정적인 공개 URL      |
+| `image`     | 로컬 이미지 또는 CMS 이미지 참조               |
+| `title`     | 작품명                                         |
+| `altText`   | 이미지의 의미를 전달하는 대체 텍스트           |
+| `status`    | `draft` 또는 `published` 게시 상태             |
+| `sortOrder` | 목록과 랜딩에서의 표시 순서                    |
 
 선택 필드:
 
-| 필드 | 목적 |
-|---|---|
-| `caption` | 작품에 대한 짧은 설명 |
-| `location` | 공개 가능한 촬영 장소 |
-| `shotAt` | 공개 가능한 촬영일 또는 연도 |
-| `category` | 필터나 분류에 사용할 범주 |
-| `albumId` | 향후 앨범 기능을 위한 선택적 연결 ID |
+| 필드       | 목적                                 |
+| ---------- | ------------------------------------ |
+| `caption`  | 작품에 대한 짧은 설명                |
+| `location` | 공개 가능한 촬영 장소                |
+| `shotAt`   | 공개 가능한 촬영일 또는 연도         |
+| `category` | 필터나 분류에 사용할 범주            |
+| `albumId`  | 향후 앨범 기능을 위한 선택적 연결 ID |
 
 `id`와 `slug`는 앨범에 종속시키지 않는다. 향후 앨범이 추가되더라도 기존 사진 URL을 유지해 URL 변경과 리디렉션을 최소화한다.
 
@@ -158,6 +165,7 @@ Docker는 개발 도구 버전을 통일하지만 소스 코드와 비밀값을 
 - `.vscode/settings.json`: 저장 시 포맷, ESLint 자동 수정과 Astro 포매터 설정
 - `eslint.config.js`: TypeScript와 Astro를 검사하는 ESLint Flat Config
 - `.prettierrc.mjs`: Astro 공식 Prettier 플러그인 설정
+- `.github/workflows/ci.yml`: PR과 `main` push에서 품질 검사와 정적 빌드를 실행하는 GitHub Actions Workflow
 
 Windows와 Docker Desktop의 bind mount에서도 파일 변경을 감지할 수 있도록 개발 컨테이너에서는 polling을 사용한다. Astro 텔레메트리는 컨테이너에서 비활성화한다.
 
@@ -165,28 +173,41 @@ VS Code에서는 Dev Containers 확장 프로그램으로 프로젝트를 열면
 
 상세 실행 방법은 [`DEVELOPMENT.md`](./DEVELOPMENT.md)를 따른다.
 
-## 9. 예정된 검증 도구
+## 9. 검증 및 CI
 
-다음 도구는 필요 시 도입하며 아직 버전을 확정하지 않았다.
+### 9.1 현재 검증 파이프라인
+
+`pnpm validate`는 다음 명령을 순서대로 실행한다.
+
+1. ESLint로 JavaScript, TypeScript와 Astro 정적 분석
+2. Prettier로 관리 대상 파일의 포맷 검사
+3. `astro check`로 Astro와 TypeScript 진단
+4. `astro build`로 정적 사이트 생성 검증
+
+GitHub Actions는 `main` 대상 PR, `main` push와 수동 실행에서 같은 `pnpm validate` 명령을 사용한다. Node.js와 pnpm 버전은 로컬 및 Docker 환경과 동일하게 고정한다.
+
+현재 `Dockerfile`은 배포용 이미지가 아니라 개발환경 이미지다. 따라서 PR CI에서는 `docker build`를 필수 검사로 실행하지 않는다. 실제 배포용 이미지가 생기면 별도의 Docker 빌드 작업을 추가한다.
+
+Workflow 파일만으로 병합이 차단되지는 않는다. GitHub Ruleset에서 `main` 브랜치의 `Validate and build` Check를 필수 상태 검사로 별도 지정해야 한다. Ruleset은 GitHub 저장소 설정이므로 이 저장소 파일만으로 관리되지 않는다.
+
+### 9.2 추후 도입할 검증 도구
 
 - Vitest: 콘텐츠 변환, 스키마와 유틸리티 단위 테스트
 - Playwright: 랜딩, 사진 목록, 페이지네이션, 라이트박스와 키보드 동작 검증
-- ESLint: JavaScript, TypeScript와 Astro 정적 분석
-- Prettier: Astro를 포함한 관리 대상 파일의 포맷 검사
-- `@astrojs/check`: Astro와 TypeScript 진단
-- Astro 빌드 검사: 콘텐츠 스키마와 정적 생성 오류 검증
-- Docker 빌드 검사: 회사와 집에서 동일한 명령으로 실행 가능한지 검증
+- 배포용 Docker 빌드 검사: 운영 이미지가 추가된 이후 도입
 
 ## 10. 초기 구현 순서
 
 1. [완료] Astro와 TypeScript strict 프로젝트 초기화
 2. [완료] pnpm 및 Node.js 버전 고정
 3. [완료] Docker 개발환경과 실행 명령 구성
-4. [예정] `Photo` 스키마와 로컬 Content Collection 작성
-5. [예정] 모크 콘텐츠 기반의 랜딩 → 목록 → 상세 흐름 구현
-6. [예정] 이미지 최적화, 접근성과 테스트 적용
-7. [예정] Sanity 스키마 및 콘텐츠 어댑터 연결
-8. [예정] 배포 환경과 CMS 게시 후 갱신 방식을 확정
+4. [완료] VS Code Dev Container와 코드 품질 도구 구성
+5. [완료] GitHub Actions 검증 Workflow 작성
+6. [예정] `Photo` 스키마와 로컬 Content Collection 작성
+7. [예정] 모크 콘텐츠 기반의 랜딩 → 목록 → 상세 흐름 구현
+8. [예정] 이미지 최적화, 접근성과 테스트 적용
+9. [예정] Sanity 스키마 및 콘텐츠 어댑터 연결
+10. [예정] 배포 환경과 CMS 게시 후 갱신 방식을 확정
 
 ## 11. 공식 참고 문서
 
@@ -196,4 +217,3 @@ VS Code에서는 Dev Containers 확장 프로그램으로 프로젝트를 열면
 - [pnpm Build Settings](https://pnpm.io/settings/build)
 - [Node.js 릴리스 현황](https://nodejs.org/en/about/previous-releases)
 - [Sanity 이미지 타입](https://www.sanity.io/docs/studio/image-type)
-
