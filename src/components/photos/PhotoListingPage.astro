@@ -36,8 +36,10 @@ const photoMeta = (photo: Photo) =>
     <header class="site-header">
       <nav class="header-side" aria-label="주요 메뉴">
         <a aria-current="page" href="/photos/">Journal</a>
-        <a href="/#about">Photographer</a>
-        <a href="/#contact">Contact</a>
+        <button type="button" data-coming-soon="Photographer">
+          Photographer
+        </button>
+        <button type="button" data-coming-soon="Contact">Contact</button>
       </nav>
 
       <a class="wordmark" href="/" aria-label="FIELD 홈">FIELD</a>
@@ -45,7 +47,7 @@ const photoMeta = (photo: Photo) =>
       <div class="header-side header-side--right">
         <span>Seoul, KR</span>
         <a href="#journal-grid">Index</a>
-        <a href="/#contact">Instagram</a>
+        <button type="button" data-coming-soon="Instagram">Instagram</button>
       </div>
     </header>
 
@@ -177,6 +179,15 @@ const photoMeta = (photo: Photo) =>
       </div>
     </dialog>
 
+    <dialog class="coming-soon-dialog" aria-labelledby="coming-soon-title">
+      <div class="coming-soon-content">
+        <p class="coming-soon-label">Coming soon</p>
+        <h2 id="coming-soon-title">구현 예정</h2>
+        <p class="coming-soon-message"></p>
+        <button class="coming-soon-close" type="button">Close</button>
+      </div>
+    </dialog>
+
     <script>
       const cards = Array.from(
         document.querySelectorAll<HTMLElement>(".journal-card"),
@@ -248,6 +259,36 @@ const photoMeta = (photo: Photo) =>
           if (event.key === "ArrowRight") renderViewer(activeIndex + 1);
         });
       }
+
+      const comingSoonDialog = document.querySelector<HTMLDialogElement>(
+        ".coming-soon-dialog",
+      );
+      const comingSoonMessage = comingSoonDialog?.querySelector<HTMLElement>(
+        ".coming-soon-message",
+      );
+      const comingSoonClose =
+        comingSoonDialog?.querySelector<HTMLButtonElement>(
+          ".coming-soon-close",
+        );
+
+      document
+        .querySelectorAll<HTMLElement>("[data-coming-soon]")
+        .forEach((trigger) => {
+          trigger.addEventListener("click", () => {
+            if (!comingSoonDialog || !comingSoonMessage) return;
+
+            const feature = trigger.dataset.comingSoon ?? "해당 기능";
+            comingSoonMessage.textContent = `${feature} 기능은 현재 준비 중입니다.`;
+            comingSoonDialog.showModal();
+          });
+        });
+
+      comingSoonClose?.addEventListener("click", () =>
+        comingSoonDialog?.close(),
+      );
+      comingSoonDialog?.addEventListener("click", (event) => {
+        if (event.target === comingSoonDialog) comingSoonDialog.close();
+      });
     </script>
   </body>
 </html>
@@ -347,12 +388,14 @@ const photoMeta = (photo: Photo) =>
   }
 
   .header-side a,
+  .header-side button,
   footer a,
   .pagination a {
     position: relative;
   }
 
   .header-side a::after,
+  .header-side button::after,
   footer a::after,
   .pagination a::after {
     position: absolute;
@@ -369,12 +412,24 @@ const photoMeta = (photo: Photo) =>
 
   .header-side a:hover::after,
   .header-side a:focus-visible::after,
+  .header-side button:hover::after,
+  .header-side button:focus-visible::after,
   footer a:hover::after,
   footer a:focus-visible::after,
   .pagination a:hover::after,
   .pagination a:focus-visible::after {
     transform: scaleX(1);
     transform-origin: left;
+  }
+
+  .header-side button {
+    padding: 0;
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+    font-size: inherit;
+    letter-spacing: inherit;
+    text-transform: inherit;
   }
 
   .wordmark {
@@ -581,6 +636,59 @@ const photoMeta = (photo: Photo) =>
 
   .viewer::backdrop {
     background: var(--paper);
+  }
+
+  .coming-soon-dialog {
+    width: min(460px, calc(100vw - 36px));
+    padding: 0;
+    border: 1px solid var(--ink);
+    background: var(--paper);
+    color: var(--ink);
+  }
+
+  .coming-soon-dialog::backdrop {
+    background: rgba(17, 17, 15, 0.55);
+  }
+
+  .coming-soon-content {
+    padding: 42px;
+  }
+
+  .coming-soon-label,
+  .coming-soon-message {
+    margin: 0;
+  }
+
+  .coming-soon-label {
+    color: var(--muted);
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .coming-soon-content h2 {
+    margin: 18px 0 14px;
+    font-size: 34px;
+    font-weight: 400;
+    letter-spacing: -0.04em;
+    line-height: 1;
+  }
+
+  .coming-soon-message {
+    color: var(--muted);
+    font-size: 11px;
+  }
+
+  .coming-soon-close {
+    margin-top: 42px;
+    padding: 8px 0;
+    border: 0;
+    border-bottom: 1px solid var(--ink);
+    background: transparent;
+    cursor: pointer;
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
   }
 
   .viewer-bar {
