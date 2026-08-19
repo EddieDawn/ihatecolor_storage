@@ -3,7 +3,7 @@
 > 상태: Approved / Development Baseline v1.1
 >
 > 결정일: 2026-08-18
-> 최종 갱신일: 2026-08-18
+> 최종 갱신일: 2026-08-19
 
 ## 1. 문서 목적
 
@@ -105,6 +105,15 @@ src/data/photos/
 
 `index.md`의 frontmatter는 `Photo` 모델을 따르고 본문은 비워둘 수 있다. 로컬 이미지는 Astro가 크기 추론과 이미지 최적화를 수행할 수 있도록 `src/` 아래에 둔다.
 
+현재 `src/content.config.ts`의 `photos` 컬렉션이 이 계약을 검증한다. `id`, `slug`, `image`, `title`, `altText`, `status`, `sortOrder`가 누락되거나 형식에 맞지 않으면 Astro 동기화와 빌드가 실패한다. 세부 작성 규칙과 frontmatter 예시는 [`src/data/photos/README.md`](../src/data/photos/README.md)에 기록한다.
+
+애플리케이션은 `src/lib/content/photos.ts`의 조회 함수만 사용한다. 이 계층은 다음 규칙을 적용한다.
+
+- 기본 조회에서는 `published` 사진만 반환한다.
+- `id`, `slug`, `sortOrder` 중복을 오류로 처리한다.
+- `sortOrder` 오름차순으로 정렬한다.
+- UI가 로컬 파일 구조나 Astro 컬렉션 엔트리에 직접 의존하지 않게 한다.
+
 모크 데이터는 정상적인 예시만 포함하지 않는다. 다음 상태도 함께 준비한다.
 
 - 세로형, 가로형, 정사각형과 극단적인 비율의 이미지
@@ -203,7 +212,7 @@ Workflow 파일만으로 병합이 차단되지는 않는다. GitHub Ruleset에�
 3. [완료] Docker 개발환경과 실행 명령 구성
 4. [완료] VS Code Dev Container와 코드 품질 도구 구성
 5. [완료] GitHub Actions 검증 Workflow 작성
-6. [예정] `Photo` 스키마와 로컬 Content Collection 작성
+6. [완료] `Photo` 스키마와 로컬 Content Collection 작성
 7. [예정] 모크 콘텐츠 기반의 랜딩 → 목록 → 상세 흐름 구현
 8. [예정] 이미지 최적화, 접근성과 테스트 적용
 9. [예정] Sanity 스키마 및 콘텐츠 어댑터 연결
