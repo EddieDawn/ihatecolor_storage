@@ -62,4 +62,4 @@ albumId: 선택적인 향후 앨범 ID
 - `single`: 첫 작품 하나만 있는 목록
 - `pagination-boundary`: 호출 시 전달한 `pageSize + 1`개 목록
 
-페이지당 카드 수는 아직 확정되지 않았으므로 시나리오 코드에 고정하지 않는다. 예를 들어 페이지당 9개를 검증할 때만 `selectPhotoScenario(photos, "pagination-boundary", { pageSize: 9 })`처럼 전달한다.
+페이지당 카드 수는 디자인 시스템에 따라 `9개`다. 시나리오 헬퍼는 다른 경계값도 재사용할 수 있도록 페이지 크기를 인자로 받으므로 `selectPhotoScenario(photos, "pagination-boundary", { pageSize: 9 })`처럼 전달한다.

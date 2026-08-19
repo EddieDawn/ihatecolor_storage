@@ -1,5 +1,9 @@
 ---
 import PhotoListingPage from "../../../components/photos/PhotoListingPage.astro";
+import {
+  getPhotoPageCount,
+  getPhotoPageItems,
+} from "../../../lib/content/photo-pagination";
 import { getPhotos, type Photo } from "../../../lib/content/photos";
 
 interface Props {
@@ -10,18 +14,16 @@ interface Props {
 }
 
 export async function getStaticPaths() {
-  const pageSize = 9;
   const photos = await getPhotos();
-  const totalPages = Math.max(1, Math.ceil(photos.length / pageSize));
+  const totalPages = getPhotoPageCount(photos.length);
 
   return Array.from({ length: Math.max(0, totalPages - 1) }, (_, index) => {
     const currentPage = index + 2;
-    const start = (currentPage - 1) * pageSize;
 
     return {
       params: { page: String(currentPage) },
       props: {
-        photos: photos.slice(start, start + pageSize),
+        photos: getPhotoPageItems(photos, currentPage),
         currentPage,
         totalPages,
         totalItems: photos.length,
