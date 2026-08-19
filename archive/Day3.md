@@ -92,3 +92,63 @@ Notion 작업 페이지에는 구현 파일, 검증 결과와 기술 결정을 �
 2. 모크 콘텐츠를 사용하는 사진 목록 페이지 구현
 3. 명시적 숫자 페이지네이션 연결
 4. 이미지 최적화와 접근성 검증
+
+## 9. 로컬 모크 콘텐츠 구현
+
+두 번째 구현 브랜치 `codex/photo-mock-content`에서 실제 화면 개발에 사용할 모크 콘텐츠를 추가했다. 이 브랜치는 아직 `main`에 병합되지 않은 Photo 스키마가 필요하므로 `codex/photo-content-collection` 위에 쌓았다.
+
+총 12개 Photo 엔트리를 구성했다.
+
+- `published` 10개, `draft` 2개
+- 세로형, 정사각형, 약 `3:1` 가로형, 약 `1:3` 세로형 이미지
+- 긴 작품명과 긴 캡션
+- 선택 메타데이터를 모두 생략한 작품
+- 연도, 연월, 전체 날짜 형식의 `shotAt`
+- `people`, `places`, `quiet` 범주 예시
+
+기존 사진 10개는 `prototype-b/` 원본을 변경하지 않고 각 모크 콘텐츠 디렉터리로 복사했다. 가로·세로 극단 비율을 검증하기 위한 비식별 풍경 및 건축 이미지 2개는 개발 fixture 용도로 별도 생성했다.
+
+페이지당 카드 수는 아직 승인되지 않았으므로 코드에 고정하지 않았다. `src/lib/content/photo-scenarios.ts`에 다음 시나리오를 추가하고 페이지네이션 경계만 호출 시점의 `pageSize + 1`로 계산한다.
+
+- 전체 목록
+- 빈 목록
+- 사진 한 장 목록
+- 페이지네이션 경계 초과 목록
+
+임시 정적 엔드포인트를 사용해 실제 Astro Content Collection 조회 결과를 확인한 뒤 검증 파일은 제거했다.
+
+- 전체 12개
+- 공개 10개
+- 초안 2개
+- 빈 목록 0개
+- 단일 목록 1개
+- 페이지 크기 9 기준 경계 목록 10개
+
+최종 `pnpm validate`에서도 ESLint, Prettier, Astro 진단과 정적 빌드가 모두 성공했다.
+
+## 10. 브랜치 의존성과 병합 순서
+
+두 번째 브랜치는 첫 번째 Photo 스키마 구현에 의존한다.
+
+```text
+main
+└─ codex/photo-content-collection
+   └─ codex/photo-mock-content
+```
+
+따라서 다음 순서를 지킨다.
+
+1. `codex/photo-content-collection`을 `main` 대상으로 PR을 만들고 먼저 병합한다.
+2. 원격 `main`이 갱신된 뒤 로컬에서 두 번째 브랜치로 이동한다.
+3. 첫 번째 작업 커밋 `a872bc6` 이후의 두 번째 작업 커밋만 최신 `main` 위로 재배치한다.
+4. rebase로 원격 브랜치 이력이 바뀌므로 `--force-with-lease`로 안전하게 갱신한다.
+5. `codex/photo-mock-content`를 `main` 대상으로 PR을 만들고 병합한다.
+
+```sh
+git switch codex/photo-mock-content
+git fetch origin
+git rebase --onto origin/main a872bc6
+git push --force-with-lease
+```
+
+두 번째 PR을 먼저 병합하면 아직 검토되지 않은 첫 번째 Photo 스키마 작업까지 함께 들어가므로 순서를 바꾸지 않는다. `--force` 대신 원격의 예상치 못한 변경을 보호하는 `--force-with-lease`를 사용한다.

@@ -40,3 +40,26 @@ albumId: 선택적인 향후 앨범 ID
 - 본문은 현재 사용하지 않으므로 비워 둔다.
 
 `getPhotos()`는 기본적으로 `published` 사진만 반환한다. 관리·검증 용도로 초안을 포함하려면 `getPhotos({ status: "all" })`을 사용한다.
+
+## 현재 모크 데이터
+
+현재 컬렉션에는 12개 작품이 있으며 다음 경계 사례를 포함한다.
+
+- 세로형, 정사각형, 극단적인 가로형과 극단적인 세로형 이미지
+- 카드 줄바꿈을 확인할 수 있는 긴 작품명
+- 선택 필드를 모두 생략한 작품
+- `published`와 `draft` 게시 상태
+- 연도, 연월, 전체 날짜 형식의 `shotAt`
+
+기존 `prototype-b/` 이미지는 원본을 수정하지 않고 모크 콘텐츠 디렉터리에 복사해 사용한다. 극단 비율 이미지 2개는 개발 fixture 용도로 생성한 비식별 풍경·건축 사진이며 실제 포트폴리오 콘텐츠가 아니다.
+
+## 목록 시나리오
+
+`src/lib/content/photo-scenarios.ts`의 `selectPhotoScenario()`로 데이터 파일을 복제하지 않고 목록 경계를 재현한다.
+
+- `all`: 전달한 전체 목록
+- `empty`: 빈 목록
+- `single`: 첫 작품 하나만 있는 목록
+- `pagination-boundary`: 호출 시 전달한 `pageSize + 1`개 목록
+
+페이지당 카드 수는 아직 확정되지 않았으므로 시나리오 코드에 고정하지 않는다. 예를 들어 페이지당 9개를 검증할 때만 `selectPhotoScenario(photos, "pagination-boundary", { pageSize: 9 })`처럼 전달한다.
