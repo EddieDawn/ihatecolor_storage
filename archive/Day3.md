@@ -151,4 +151,68 @@ git rebase --onto origin/main a872bc6
 git push --force-with-lease
 ```
 
+## 11. Studio IVE 형식을 반영한 사진 목록 구현
+
+세 번째 구현 브랜치 `codex/photos-page`에서 [Studio IVE Journal](https://www.studioive.co/journal/)과 승인된 `prototype-b/`를 기준으로 실제 사진 목록 페이지를 만들었다. 비교 기준인 프로토타입 파일은 수정하지 않았다.
+
+디자인 결정:
+
+- 데스크톱은 정확히 3열, 페이지당 9개 작품을 표시한다.
+- 숫자 페이지네이션은 목록 하단에 한 번만 둔다.
+- 무한 스크롤과 자동 추가 로딩은 사용하지 않는다.
+- 이미지는 3:4 프레임으로 통일하고 기본 흑백, 호버·키보드 포커스 시 컬러로 전환한다.
+- 캡션 왼쪽에는 작품명, 오른쪽에는 장소와 연도를 배치한다.
+- 분류 필터는 아직 승인되지 않았으므로 구현하지 않았다.
+
+정적 URL:
+
+- 첫 페이지: `/photos/`
+- 두 번째 페이지부터: `/photos/page/{page}/`
+
+현재 공개 모크 사진은 10개이므로 첫 페이지에 9개, `/photos/page/2/`에 1개가 생성된다. `draft` 사진 2개는 공개 목록에서 제외된다.
+
+## 12. 이미지 최적화와 검증
+
+Astro `Image` 컴포넌트를 사용해 카드 폭에 맞는 여러 크기의 WebP를 생성한다. 정적 이미지 변환에 필요한 Sharp `0.35.3`을 정확한 버전으로 고정했다. 첫 행 세 장은 우선 로딩하고 이후 카드는 지연 로딩한다.
+
+접근성과 상호작용:
+
+- 본문 건너뛰기 링크
+- 현재 페이지의 `aria-current`
+- 사진별 대체 텍스트
+- 키보드로 열고 닫을 수 있는 확대 다이얼로그
+- 좌우 화살표로 현재 페이지 사진 이동
+- `prefers-reduced-motion` 대응
+
+Docker 개발환경의 Node.js `24.19.0`, pnpm `11.22.0`에서 `pnpm validate`가 통과했다.
+
+- ESLint: 성공
+- Prettier 검사: 성공
+- Astro 진단: 오류 0, 경고 0, 힌트 0
+- 정적 빌드: 성공
+- `/photos/`, `/photos/page/2/` 생성 확인
+- 반응형 WebP 40개 생성 확인
+
+1440×900 실제 렌더링도 별도로 확인했다.
+
+- 카드 9개와 정확한 3열 구성
+- 각 열 너비 약 402px
+- 가로 스크롤 없음
+- 하단 숫자 페이지네이션
+- 두 번째 페이지 카드 1개
+- 사진 확대 다이얼로그 정상 동작
+
+## 13. 세 번째 브랜치까지의 병합 순서
+
+사진 목록 브랜치는 앞선 두 작업에 의존한다.
+
+```text
+main
+└─ codex/photo-content-collection
+   └─ codex/photo-mock-content
+      └─ codex/photos-page
+```
+
+따라서 PR도 `photo-content-collection` → `photo-mock-content` → `photos-page` 순서로 병합한다. 각 선행 PR이 `main`에 들어간 뒤 다음 브랜치를 최신 `main` 위로 재배치하면 해당 PR에는 자기 작업 커밋만 남는다.
+
 두 번째 PR을 먼저 병합하면 아직 검토되지 않은 첫 번째 Photo 스키마 작업까지 함께 들어가므로 순서를 바꾸지 않는다. `--force` 대신 원격의 예상치 못한 변경을 보호하는 `--force-with-lease`를 사용한다.
