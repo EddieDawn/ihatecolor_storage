@@ -1,0 +1,43 @@
+---
+import PhotoListingPage from "../../../components/photos/PhotoListingPage.astro";
+import {
+  getPhotoPageCount,
+  getPhotoPageItems,
+} from "../../../lib/content/photo-pagination";
+import { getPhotos, type Photo } from "../../../lib/content/photos";
+
+interface Props {
+  photos: Photo[];
+  currentPage: number;
+  totalPages: number;
+  totalItems: number;
+}
+
+export async function getStaticPaths() {
+  const photos = await getPhotos();
+  const totalPages = getPhotoPageCount(photos.length);
+
+  return Array.from({ length: Math.max(0, totalPages - 1) }, (_, index) => {
+    const currentPage = index + 2;
+
+    return {
+      params: { page: String(currentPage) },
+      props: {
+        photos: getPhotoPageItems(photos, currentPage),
+        currentPage,
+        totalPages,
+        totalItems: photos.length,
+      },
+    };
+  });
+}
+
+const { photos, currentPage, totalPages, totalItems } = Astro.props;
+---
+
+<PhotoListingPage
+  photos={photos}
+  currentPage={currentPage}
+  totalPages={totalPages}
+  totalItems={totalItems}
+/>

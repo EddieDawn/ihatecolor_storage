@@ -1,0 +1,18 @@
+---
+import PhotoListingPage from "../../components/photos/PhotoListingPage.astro";
+import {
+  getPhotoPageCount,
+  getPhotoPageItems,
+} from "../../lib/content/photo-pagination";
+import { getPhotos } from "../../lib/content/photos";
+
+const photos = await getPhotos();
+const totalPages = getPhotoPageCount(photos.length);
+---
+
+<PhotoListingPage
+  photos={getPhotoPageItems(photos, 1)}
+  currentPage={1}
+  totalPages={totalPages}
+  totalItems={photos.length}
+/>

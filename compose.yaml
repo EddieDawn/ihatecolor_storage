@@ -9,9 +9,8 @@ services:
         PNPM_VERSION: 11.22.0
     init: true
     command:
-      - sh
-      - -c
-      - rm -f .astro/dev.json && pnpm install --frozen-lockfile --store-dir /pnpm/store && pnpm dev --host 0.0.0.0
+      - sleep
+      - infinity
     ports:
       - "${ASTRO_PORT:-4321}:4321"
     environment:
@@ -22,16 +21,6 @@ services:
       - .:/workspace
       - node_modules:/workspace/node_modules
       - pnpm_store:/pnpm/store
-    healthcheck:
-      test:
-        - CMD
-        - node
-        - -e
-        - fetch('http://127.0.0.1:4321/health').then((response) => { if (!response.ok) process.exit(1); }).catch(() => process.exit(1));
-      interval: 5s
-      timeout: 3s
-      retries: 12
-      start_period: 10s
     stop_grace_period: 5s
 
 volumes:
