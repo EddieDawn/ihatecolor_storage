@@ -24,6 +24,8 @@ const previousPageHref =
   currentPage > 1 ? getPhotoPageHref(currentPage - 1) : undefined;
 const nextPageHref =
   currentPage < totalPages ? getPhotoPageHref(currentPage + 1) : undefined;
+const paginationHref = (page: number) =>
+  `${getPhotoPageHref(page)}#journal-title`;
 ---
 
 <!doctype html>
@@ -79,7 +81,7 @@ const nextPageHref =
 
       <section class="journal" aria-labelledby="journal-title">
         <div class="journal-toolbar">
-          <h2 id="journal-title">Journal</h2>
+          <h2 id="journal-title" tabindex="-1">Journal</h2>
           <p class="journal-page">
             Page {String(currentPage).padStart(2, "0")}
           </p>
@@ -126,7 +128,7 @@ const nextPageHref =
             <nav class="pagination" aria-label="사진 목록 페이지">
               <div class="pagination-edge pagination-edge--previous">
                 {currentPage > 1 && (
-                  <a href={getPhotoPageHref(currentPage - 1)} rel="prev">
+                  <a href={paginationHref(currentPage - 1)} rel="prev">
                     Previous
                   </a>
                 )}
@@ -141,7 +143,7 @@ const nextPageHref =
                     {page === currentPage ? (
                       <span aria-current="page">{page}</span>
                     ) : (
-                      <a href={getPhotoPageHref(page)}>{page}</a>
+                      <a href={paginationHref(page)}>{page}</a>
                     )}
                   </li>
                 ))}
@@ -149,7 +151,7 @@ const nextPageHref =
 
               <div class="pagination-edge pagination-edge--next">
                 {currentPage < totalPages && (
-                  <a href={getPhotoPageHref(currentPage + 1)} rel="next">
+                  <a href={paginationHref(currentPage + 1)} rel="next">
                     Next
                   </a>
                 )}
@@ -205,6 +207,16 @@ const nextPageHref =
       comingSoonDialog?.addEventListener("click", (event) => {
         if (event.target === comingSoonDialog) comingSoonDialog.close();
       });
+
+      if (window.location.hash === "#journal-title") {
+        const journalTitle =
+          document.querySelector<HTMLElement>("#journal-title");
+
+        requestAnimationFrame(() => {
+          journalTitle?.scrollIntoView({ block: "start" });
+          journalTitle?.focus({ preventScroll: true });
+        });
+      }
     </script>
   </body>
 </html>
@@ -407,6 +419,7 @@ const nextPageHref =
   }
 
   .journal-toolbar h2 {
+    justify-self: start;
     margin: 0;
     font-size: 11px;
     font-weight: 500;
