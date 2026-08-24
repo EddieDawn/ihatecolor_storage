@@ -39,3 +39,5 @@ const photos = defineCollection({
 });
 
 export const collections = { photos };
+
+//현재 로컬을 CMS처럼 사용하기 위한 코드입니다!
