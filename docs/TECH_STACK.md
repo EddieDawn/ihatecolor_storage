@@ -169,6 +169,8 @@ Docker는 개발 도구 버전을 통일하지만 소스 코드와 비밀값을 
 
 초기 Docker 구성은 Astro 애플리케이션 하나만 실행한다. 관리형 Sanity를 사용하므로 데이터베이스나 CMS 서버를 로컬 Compose 서비스로 먼저 추가하지 않는다. 실제로 두 번째 서비스가 필요해질 때 `compose.yaml`을 확장한다.
 
+Astro 개발 서버는 컨테이너의 대표 프로세스로 실행한다. `docker compose up`으로 컨테이너와 서버를 함께 시작하고, `/health` healthcheck로 준비 상태를 확인하며, `docker compose down`으로 함께 종료한다.
+
 현재 구현 파일:
 
 - `Dockerfile`: Node.js `24.19.0`, pnpm `11.22.0`, Git과 SSH 클라이언트를 포함한 개발 이미지

@@ -15,6 +15,8 @@
 docker compose up --build --detach web
 ```
 
+이 명령은 개발 컨테이너와 Astro 개발 서버를 함께 시작한다. 별도의 컨테이너 셸에서 `pnpm dev`를 다시 실행하지 않는다.
+
 컨테이너 상태를 확인한다.
 
 ```powershell
@@ -36,6 +38,7 @@ docker compose ps
 4. 최초 생성이 끝나면 Astro, ESLint, Prettier, YAML, markdownlint 확장 프로그램이 컨테이너에 자동 설치된다.
 
 Dev Container는 별도 개발환경을 만들지 않고 `compose.yaml`의 `web` 서비스를 그대로 재사용한다.
+Astro 개발 서버는 컨테이너의 대표 프로세스로 실행되며 서버 로그는 Docker 로그에서 확인한다.
 
 ## 3. 로그 확인
 
@@ -101,6 +104,8 @@ Git과 SSH 클라이언트는 이미지에 포함되지만 GitHub 인증 정보�
 ```powershell
 docker compose down
 ```
+
+Astro 개발 서버도 컨테이너와 함께 종료된다.
 
 ## 7. 회사와 집에서 이어서 작업하기
 
