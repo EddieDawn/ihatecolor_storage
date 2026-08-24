@@ -1,5 +1,7 @@
+import { Buffer } from "node:buffer";
 import { readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
+import process from "node:process";
 
 const projectRoot = process.cwd();
 const outputRoot = path.join(projectRoot, "dist");
@@ -54,6 +56,6 @@ html = `<!-- Photo journal standalone review copy. Generated from the Astro buil
 await writeFile(destinationPath, html, "utf8");
 
 const size = Buffer.byteLength(html);
-console.log(
-  `Created ${path.basename(destinationPath)} (${(size / 1024 / 1024).toFixed(2)} MiB)`,
+process.stdout.write(
+  `Created ${path.basename(destinationPath)} (${(size / 1024 / 1024).toFixed(2)} MiB)\n`,
 );

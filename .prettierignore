@@ -3,6 +3,8 @@ dist/
 node_modules/
 .pnpm-store/
 pnpm-lock.yaml
+landingpage_example.html
+photospage_example.html
 
 # Approved visual references must remain unchanged.
 prototype-b/
