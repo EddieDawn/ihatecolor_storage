@@ -460,10 +460,7 @@ const paginationHref = (page: number) =>
     filter: grayscale(1);
     object-fit: cover;
     object-position: center;
-    transform: scale(1.001);
-    transition:
-      filter 380ms ease,
-      transform 700ms cubic-bezier(0.2, 0.7, 0.2, 1);
+    transition: filter 380ms ease;
   }
 
   .card-meta {
@@ -612,7 +609,6 @@ const paginationHref = (page: number) =>
   @media (hover: hover) and (pointer: fine) {
     .journal-card:hover .card-image {
       filter: grayscale(0);
-      transform: scale(1.025);
     }
   }
 
@@ -676,7 +672,6 @@ const paginationHref = (page: number) =>
 
     .image-frame .card-image {
       filter: none;
-      transform: none;
     }
 
     .pagination {
