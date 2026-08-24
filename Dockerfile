@@ -32,4 +32,4 @@ COPY --chown=node:node src ./src
 
 EXPOSE 4321
 
-CMD ["sh", "-c", "rm -f .astro/dev.json && pnpm dev --host 0.0.0.0"]
+CMD ["sh", "-c", "pnpm install --frozen-lockfile --store-dir /pnpm/store && rm -f .astro/dev.json && exec pnpm dev --host 0.0.0.0"]
