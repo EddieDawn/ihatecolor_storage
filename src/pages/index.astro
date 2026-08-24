@@ -1,3 +1,368 @@
 ---
-// The production landing page will be implemented from prototype-c after approval.
+import { Image } from "astro:assets";
+
+import { getPhotos, type Photo } from "../lib/content/photos";
+import "../styles/landing.css";
+
+const photos = await getPhotos();
+const photoBySlug = (slug: string): Photo => {
+  const photo = photos.find((item) => item.slug === slug);
+  if (!photo) throw new Error(`Landing photo not found: ${slug}`);
+  return photo;
+};
+
+const hero = photoBySlug("after-the-rain");
+const platform = photoBySlug("last-platform");
+const walk = photoBySlug("the-long-way-in");
+const arrival = photoBySlug("before-turning");
+const bicycle = photoBySlug("passing-wall");
+const harbor = photoBySlug("low-tide-work");
+const closing = photoBySlug("unclaimed-ground");
 ---
+
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Justyes gallery — 두 사람 사이의 다정한 순간을 기록하는 웨딩 스냅 갤러리"
+    />
+    <title>Justyes gallery — Wedding stories</title>
+    <script is:inline>
+      document.documentElement.classList.add("js");
+    </script>
+  </head>
+  <body class="landing-page">
+    <a class="skip-link" href="#story">사진 에세이로 건너뛰기</a>
+    <header class="site-header">
+      <a class="brand" href="#top" aria-label="Justyes gallery 홈"
+        ><strong>Justyes</strong><span>Gallery · Wedding stories</span></a
+      >
+      <nav aria-label="주요 메뉴">
+        <a href="#story">Story</a><a href="/photos/">Photos</a>
+      </nav>
+      <div class="header-meta">
+        <span>Seoul, KR</span><span>Stories / 2026</span>
+      </div>
+    </header>
+
+    <main id="top">
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="hero__rail">
+          <p>Wedding<br />Archive 2024—26</p><p class="hero__coordinate">
+            37.5665° N<br />126.9780° E
+          </p>
+        </div>
+        <div class="hero__media-wrap">
+          <button
+            class="photo-button hero__media"
+            type="button"
+            data-viewer
+            data-title={hero.title}
+            data-meta="Seoul · 2025"
+            aria-label={`${hero.title} 사진 크게 보기`}
+          >
+            <Image
+              src={hero.image}
+              alt={hero.altText}
+              widths={[720, 1080, 1440]}
+              sizes="54vw"
+              format="webp"
+              quality={88}
+              loading="eager"
+              fetchpriority="high"
+            />
+          </button>
+          <p class="hero__image-index">No. 001</p>
+        </div>
+        <div class="hero__copy">
+          <p class="kicker">A quiet wedding archive</p>
+          <h1 id="hero-title">The moments<br />between.</h1>
+          <div class="hero__caption">
+            <p>포즈와 포즈 사이,<br />두 사람만 아는 표정과 온도.</p><p>
+              Justyes gallery<br />Seoul, 2026
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="story" id="story" aria-labelledby="story-title">
+        <header class="story-intro reveal">
+          <p class="section-number">01 / Wedding essay</p>
+          <h2 id="story-title">
+            Love is remembered in the gestures no one asked for.
+          </h2>
+          <p class="story-intro__body">
+            Justyes gallery는 정해진 포즈보다 두 사람 사이에 자연스럽게 흐르는
+            시선과 손짓을 기록합니다. 오래 지나 다시 보아도 그날의 공기까지
+            떠오르는 웨딩 스냅을 지향합니다.
+          </p>
+        </header>
+
+        <div class="essay-layout">
+          <figure class="essay-photo essay-photo--platform reveal">
+            <button
+              class="photo-button"
+              type="button"
+              data-viewer
+              data-title={platform.title}
+              data-meta="Dawn Line · 2025"
+              aria-label={`${platform.title} 사진 크게 보기`}
+              ><Image
+                src={platform.image}
+                alt={platform.altText}
+                widths={[640, 960, 1280]}
+                sizes="46vw"
+                format="webp"
+                quality={86}
+                loading="lazy"
+              /></button
+            >
+            <figcaption>
+              <span>{platform.title}</span><span>Dawn Line · 2025</span><span
+                >01</span
+              >
+            </figcaption>
+          </figure>
+          <figure class="essay-photo essay-photo--walk reveal">
+            <button
+              class="photo-button"
+              type="button"
+              data-viewer
+              data-title="The Long Way In"
+              data-meta="Old Campus · 2026"
+              aria-label="The Long Way In 사진 크게 보기"
+              ><Image
+                src={walk.image}
+                alt={walk.altText}
+                widths={[480, 720, 960]}
+                sizes="31vw"
+                format="webp"
+                quality={86}
+                loading="lazy"
+              /></button
+            >
+            <figcaption>
+              <span>The Long Way In</span><span>Old Campus · 2026</span><span
+                >02</span
+              >
+            </figcaption>
+          </figure>
+          <blockquote class="essay-quote reveal">
+            <p>
+              “사랑은 가장 자연스러운 순간에<br />가장 오래 남는 표정이 된다.”
+            </p><cite>Justyes note, Spring 2026</cite>
+          </blockquote>
+          <figure class="essay-photo essay-photo--arrival reveal">
+            <button
+              class="photo-button"
+              type="button"
+              data-viewer
+              data-title={arrival.title}
+              data-meta="Daegu · 2026"
+              aria-label={`${arrival.title} 사진 크게 보기`}
+              ><Image
+                src={arrival.image}
+                alt={arrival.altText}
+                widths={[560, 840, 1120]}
+                sizes="39vw"
+                format="webp"
+                quality={86}
+                loading="lazy"
+              /></button
+            >
+            <figcaption>
+              <span>{arrival.title}</span><span>Daegu · 2026</span><span
+                >03</span
+              >
+            </figcaption>
+          </figure>
+          <figure class="essay-photo essay-photo--bicycle reveal">
+            <button
+              class="photo-button"
+              type="button"
+              data-viewer
+              data-title={bicycle.title}
+              data-meta="West District · 2025"
+              aria-label={`${bicycle.title} 사진 크게 보기`}
+              ><Image
+                src={bicycle.image}
+                alt={bicycle.altText}
+                widths={[480, 720, 960]}
+                sizes="39vw"
+                format="webp"
+                quality={86}
+                loading="lazy"
+              /></button
+            >
+            <figcaption>
+              <span>{bicycle.title}</span><span>West District · 2025</span><span
+                >04</span
+              >
+            </figcaption>
+          </figure>
+          <div class="interlude reveal" aria-label="사진 에세이 중간 글">
+            <p>Before → After</p><h3>
+              A photograph keeps the warmth after the day has passed.
+            </h3><p>
+              의식이 끝난 뒤에도 사진 속에는 서로를 바라보던 마음과 그날의
+              따뜻한 빛이 함께 남습니다.
+            </p>
+          </div>
+          <figure class="essay-photo essay-photo--harbor reveal">
+            <button
+              class="photo-button"
+              type="button"
+              data-viewer
+              data-title={harbor.title}
+              data-meta="East Harbor · 2024"
+              aria-label={`${harbor.title} 사진 크게 보기`}
+              ><Image
+                src={harbor.image}
+                alt={harbor.altText}
+                widths={[640, 960, 1280]}
+                sizes="46vw"
+                format="webp"
+                quality={86}
+                loading="lazy"
+              /></button
+            >
+            <figcaption>
+              <span>{harbor.title}</span><span>East Harbor · 2024</span><span
+                >05</span
+              >
+            </figcaption>
+          </figure>
+          <figure class="essay-photo essay-photo--closing reveal">
+            <button
+              class="photo-button"
+              type="button"
+              data-viewer
+              data-title={closing.title}
+              data-meta="Dalseong · 2026"
+              aria-label={`${closing.title} 사진 크게 보기`}
+              ><Image
+                src={closing.image}
+                alt={closing.altText}
+                widths={[480, 720, 960]}
+                sizes="39vw"
+                format="webp"
+                quality={86}
+                loading="lazy"
+              /></button
+            >
+            <figcaption>
+              <span>{closing.title}</span><span>Dalseong · 2026</span><span
+                >06</span
+              >
+            </figcaption>
+          </figure>
+        </div>
+        <footer class="story-end reveal">
+          <p>End of essay 01</p><a href="#top"
+            >Back to top <span aria-hidden="true">↑</span></a
+          >
+        </footer>
+      </section>
+    </main>
+
+    <dialog class="viewer" aria-label="사진 상세 보기">
+      <header>
+        <p>
+          <span class="viewer__current">01</span> / <span class="viewer__total"
+            >07</span
+          >
+        </p><p class="viewer__title"></p><button
+          class="viewer__close"
+          type="button"
+          aria-label="상세 보기 닫기">Close</button
+        >
+      </header>
+      <div class="viewer__stage">
+        <button class="viewer__prev" type="button" aria-label="이전 사진"
+          >Prev</button
+        ><figure><img alt="" /><figcaption></figcaption></figure><button
+          class="viewer__next"
+          type="button"
+          aria-label="다음 사진">Next</button
+        >
+      </div>
+    </dialog>
+
+    <script>
+      const revealItems = [
+        ...document.querySelectorAll<HTMLElement>(".reveal"),
+      ];
+      if ("IntersectionObserver" in window) {
+        const observer = new IntersectionObserver(
+          (entries) =>
+            entries.forEach((entry) => {
+              if (!entry.isIntersecting) return;
+              entry.target.classList.add("is-visible");
+              observer.unobserve(entry.target);
+            }),
+          { threshold: 0.12, rootMargin: "0px 0px -5%" },
+        );
+        revealItems.forEach((item) => observer.observe(item));
+      } else revealItems.forEach((item) => item.classList.add("is-visible"));
+
+      const viewer = document.querySelector<HTMLDialogElement>(".viewer");
+      const items = [
+        ...document.querySelectorAll<HTMLElement>("[data-viewer]"),
+      ];
+      if (viewer) {
+        const image = viewer.querySelector<HTMLImageElement>("figure img");
+        const caption = viewer.querySelector<HTMLElement>("figcaption");
+        const title = viewer.querySelector<HTMLElement>(".viewer__title");
+        const current = viewer.querySelector<HTMLElement>(".viewer__current");
+        const total = viewer.querySelector<HTMLElement>(".viewer__total");
+        let index = 0;
+        const render = (next: number) => {
+          index = (next + items.length) % items.length;
+          const item = items[index];
+          const source = item?.querySelector<HTMLImageElement>("img");
+          if (
+            !item ||
+            !source ||
+            !image ||
+            !caption ||
+            !title ||
+            !current ||
+            !total
+          )
+            return;
+          image.src = source.currentSrc || source.src;
+          image.alt = source.alt;
+          title.textContent = item.dataset.title ?? "";
+          caption.textContent = item.dataset.meta ?? "";
+          current.textContent = String(index + 1).padStart(2, "0");
+          total.textContent = String(items.length).padStart(2, "0");
+        };
+        items.forEach((item, itemIndex) =>
+          item.addEventListener("click", () => {
+            render(itemIndex);
+            viewer.showModal();
+          }),
+        );
+        viewer
+          .querySelector(".viewer__close")
+          ?.addEventListener("click", () => viewer.close());
+        viewer
+          .querySelector(".viewer__prev")
+          ?.addEventListener("click", () => render(index - 1));
+        viewer
+          .querySelector(".viewer__next")
+          ?.addEventListener("click", () => render(index + 1));
+        viewer.addEventListener("click", (event) => {
+          if (event.target === viewer) viewer.close();
+        });
+        viewer.addEventListener("keydown", (event) => {
+          if (event.key === "ArrowLeft") render(index - 1);
+          if (event.key === "ArrowRight") render(index + 1);
+        });
+      }
+    </script>
+  </body>
+</html>
