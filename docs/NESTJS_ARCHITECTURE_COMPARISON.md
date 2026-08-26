@@ -210,7 +210,7 @@ Photo 어댑터
 애플리케이션 Photo
 ```
 
-Zod 검증은 `src/lib/sanity/response-schemas.ts`에 구현되어 있다. 어댑터는 이후 단계에서 구현한다.
+Zod 검증은 `src/lib/sanity/response-schemas.ts`에, 공통 모델 변환은 `src/lib/sanity/photo-adapter.ts`에 구현되어 있다.
 
 ## 8. `src/pages`와 Controller
 
@@ -325,13 +325,13 @@ GROQ 쿼리
 Sanity fetch 함수
     ↓
 Sanity 응답 Zod 검증
+    ↓
+Sanity 응답 → Photo 변환 어댑터
 ```
 
 아직 구현하지 않은 계층:
 
 ```text
-Sanity 응답 → Photo 변환 어댑터
-    ↓
 getPhotos()의 Sanity 전환
     ↓
 페이지의 원격 이미지 렌더링
