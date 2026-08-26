@@ -198,7 +198,7 @@ Prisma 또는 외부 API 원본 모델
 Controller가 반환할 Response DTO
 ```
 
-현재 프로젝트의 최종 흐름도 다음과 같다.
+현재 프로젝트의 흐름은 다음과 같다.
 
 ```text
 Sanity 원본 응답
@@ -210,7 +210,7 @@ Photo 어댑터
 애플리케이션 Photo
 ```
 
-Zod 검증과 어댑터는 이후 단계에서 구현한다.
+Zod 검증은 `src/lib/sanity/response-schemas.ts`에 구현되어 있다. 어댑터는 이후 단계에서 구현한다.
 
 ## 8. `src/pages`와 Controller
 
@@ -323,13 +323,13 @@ Sanity 클라이언트
 GROQ 쿼리
     ↓
 Sanity fetch 함수
+    ↓
+Sanity 응답 Zod 검증
 ```
 
 아직 구현하지 않은 계층:
 
 ```text
-Sanity 응답 Zod 검증
-    ↓
 Sanity 응답 → Photo 변환 어댑터
     ↓
 getPhotos()의 Sanity 전환
