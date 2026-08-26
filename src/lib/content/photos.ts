@@ -1,11 +1,9 @@
-import { getCollection, type CollectionEntry } from "astro:content";
+import { adaptSanityPhotos } from "../sanity/photo-adapter";
+import { fetchAllPhotosFromSanity } from "../sanity/fetch";
+import { parseSanityPhotosResponse } from "../sanity/response-schemas";
+import type { Photo } from "./photo-model";
 
-export type Photo = CollectionEntry<"photos">["data"];
-export type PhotoStatus = Photo["status"];
-
-export interface GetPhotosOptions {
-  status?: PhotoStatus | "all";
-}
+export type { Photo } from "./photo-model";
 
 function assertUniqueField(
   photos: readonly Photo[],
@@ -35,15 +33,10 @@ export function validateAndSortPhotos(photos: readonly Photo[]): Photo[] {
   );
 }
 
-export async function getPhotos({
-  status = "published",
-}: GetPhotosOptions = {}): Promise<Photo[]> {
-  const entries = await getCollection("photos");
-  const photos = validateAndSortPhotos(entries.map(({ data }) => data));
+export async function getPhotos(): Promise<Photo[]> {
+  const response = await fetchAllPhotosFromSanity();
+  const validatedPhotos = parseSanityPhotosResponse(response);
+  const photos = adaptSanityPhotos(validatedPhotos);
 
-  if (status === "all") {
-    return photos;
-  }
-
-  return photos.filter((photo) => photo.status === status);
+  return validateAndSortPhotos(photos);
 }

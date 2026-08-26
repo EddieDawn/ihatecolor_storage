@@ -1,23 +1,11 @@
 ---
 import { Image } from "astro:assets";
 
-import { getPhotos, type Photo } from "../lib/content/photos";
+import { getLandingPagePhotos } from "../lib/content/landing-page";
 import "../styles/landing.css";
 
-const photos = await getPhotos();
-const photoBySlug = (slug: string): Photo => {
-  const photo = photos.find((item) => item.slug === slug);
-  if (!photo) throw new Error(`Landing photo not found: ${slug}`);
-  return photo;
-};
-
-const hero = photoBySlug("after-the-rain");
-const platform = photoBySlug("last-platform");
-const walk = photoBySlug("the-long-way-in");
-const arrival = photoBySlug("before-turning");
-const bicycle = photoBySlug("passing-wall");
-const harbor = photoBySlug("low-tide-work");
-const closing = photoBySlug("unclaimed-ground");
+const { heroPhoto: hero, storyPhotos } = await getLandingPagePhotos();
+const [platform, walk, arrival, bicycle, harbor, closing] = storyPhotos;
 ---
 
 <!doctype html>
@@ -65,7 +53,9 @@ const closing = photoBySlug("unclaimed-ground");
             aria-label={`${hero.title} 사진 크게 보기`}
           >
             <Image
-              src={hero.image}
+              src={hero.image.url}
+              width={hero.image.width}
+              height={hero.image.height}
               alt={hero.altText}
               widths={[720, 1080, 1440]}
               sizes="54vw"
@@ -111,7 +101,9 @@ const closing = photoBySlug("unclaimed-ground");
               data-meta="Dawn Line · 2025"
               aria-label={`${platform.title} 사진 크게 보기`}
               ><Image
-                src={platform.image}
+                src={platform.image.url}
+                width={platform.image.width}
+                height={platform.image.height}
                 alt={platform.altText}
                 widths={[640, 960, 1280]}
                 sizes="46vw"
@@ -135,7 +127,9 @@ const closing = photoBySlug("unclaimed-ground");
               data-meta="Old Campus · 2026"
               aria-label="The Long Way In 사진 크게 보기"
               ><Image
-                src={walk.image}
+                src={walk.image.url}
+                width={walk.image.width}
+                height={walk.image.height}
                 alt={walk.altText}
                 widths={[480, 720, 960]}
                 sizes="31vw"
@@ -164,7 +158,9 @@ const closing = photoBySlug("unclaimed-ground");
               data-meta="Daegu · 2026"
               aria-label={`${arrival.title} 사진 크게 보기`}
               ><Image
-                src={arrival.image}
+                src={arrival.image.url}
+                width={arrival.image.width}
+                height={arrival.image.height}
                 alt={arrival.altText}
                 widths={[560, 840, 1120]}
                 sizes="39vw"
@@ -188,7 +184,9 @@ const closing = photoBySlug("unclaimed-ground");
               data-meta="West District · 2025"
               aria-label={`${bicycle.title} 사진 크게 보기`}
               ><Image
-                src={bicycle.image}
+                src={bicycle.image.url}
+                width={bicycle.image.width}
+                height={bicycle.image.height}
                 alt={bicycle.altText}
                 widths={[480, 720, 960]}
                 sizes="39vw"
@@ -220,7 +218,9 @@ const closing = photoBySlug("unclaimed-ground");
               data-meta="East Harbor · 2024"
               aria-label={`${harbor.title} 사진 크게 보기`}
               ><Image
-                src={harbor.image}
+                src={harbor.image.url}
+                width={harbor.image.width}
+                height={harbor.image.height}
                 alt={harbor.altText}
                 widths={[640, 960, 1280]}
                 sizes="46vw"
@@ -244,7 +244,9 @@ const closing = photoBySlug("unclaimed-ground");
               data-meta="Dalseong · 2026"
               aria-label={`${closing.title} 사진 크게 보기`}
               ><Image
-                src={closing.image}
+                src={closing.image.url}
+                width={closing.image.width}
+                height={closing.image.height}
                 alt={closing.altText}
                 widths={[480, 720, 960]}
                 sizes="39vw"
