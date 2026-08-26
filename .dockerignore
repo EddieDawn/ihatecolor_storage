@@ -4,7 +4,10 @@
 .astro
 dist
 node_modules
+**/node_modules
 .pnpm-store
+studio/dist
+studio/.sanity
 
 .env
 .env.*

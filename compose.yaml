@@ -10,6 +10,7 @@ services:
     init: true
     ports:
       - "${ASTRO_PORT:-4321}:4321"
+      - "${SANITY_STUDIO_PORT:-3333}:3333"
     environment:
       ASTRO_TELEMETRY_DISABLED: "1"
       CHOKIDAR_USEPOLLING: "true"
