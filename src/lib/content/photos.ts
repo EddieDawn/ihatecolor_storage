@@ -7,7 +7,7 @@ export type { Photo } from "./photo-model";
 
 function assertUniqueField(
   photos: readonly Photo[],
-  field: "id" | "slug" | "sortOrder",
+  field: "id" | "slug",
 ): void {
   const seen = new Set<string | number>();
 
@@ -25,11 +25,10 @@ function assertUniqueField(
 export function validateAndSortPhotos(photos: readonly Photo[]): Photo[] {
   assertUniqueField(photos, "id");
   assertUniqueField(photos, "slug");
-  assertUniqueField(photos, "sortOrder");
 
   return [...photos].sort(
     (left, right) =>
-      left.sortOrder - right.sortOrder || left.id.localeCompare(right.id),
+      right.sortOrder - left.sortOrder || left.id.localeCompare(right.id),
   );
 }
 

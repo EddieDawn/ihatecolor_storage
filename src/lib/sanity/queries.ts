@@ -20,7 +20,7 @@ export const allPhotosQuery = `
   *[
     _type == "photo" &&
     !(_id in path("drafts.**"))
-  ] | order(sortOrder asc, _id asc) {
+  ] | order(sortOrder desc, _id asc) {
     ${photoProjection}
   }
 `;

@@ -67,7 +67,7 @@
 | `image`     | Sanity CDN 이미지의 URL과 실제 너비·높이        |
 | `title`     | 작품명                                         |
 | `altText`   | 이미지의 의미를 전달하는 대체 텍스트           |
-| `sortOrder` | 목록과 랜딩에서의 표시 순서                    |
+| `sortOrder` | 값이 클수록 먼저 표시되는 목록 우선순위         |
 
 선택 필드:
 
@@ -98,7 +98,7 @@
 1. `src/lib/sanity/fetch.ts`가 GROQ 쿼리로 Sanity 응답을 가져온다.
 2. `src/lib/sanity/response-schemas.ts`가 외부 응답 형식을 Zod로 검증한다.
 3. `src/lib/sanity/photo-adapter.ts`가 검증된 응답을 애플리케이션 `Photo` 모델로 변환한다.
-4. `src/lib/content/photos.ts`가 중복을 검사하고 `sortOrder` 순서로 정렬한다.
+4. `src/lib/content/photos.ts`가 ID와 slug 중복을 검사하고 `sortOrder` 내림차순으로 정렬한다.
 5. 페이지와 컴포넌트는 Sanity SDK가 아닌 콘텐츠 조회 함수만 호출한다.
 
 GROQ 쿼리에서 Sanity 초안 문서를 제외하므로 화면에는 게시된 문서만 전달된다. 랜딩 페이지는 고정 slug에 의존하지 않고 Studio의 `landingPage` 문서에서 선택한 Hero 한 장과 Story 여섯 장을 사용한다.

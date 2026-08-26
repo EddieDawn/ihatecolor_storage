@@ -107,7 +107,7 @@ return this.prisma.photo.findMany({
     published: true,
   },
   orderBy: {
-    sortOrder: "asc",
+    sortOrder: "desc",
   },
 });
 ```
@@ -118,7 +118,7 @@ Sanity에서는 SQL이나 Prisma query object 대신 GROQ를 사용한다.
 *[
   _type == "photo" &&
   !(_id in path("drafts.**"))
-] | order(sortOrder asc, _id asc)
+] | order(sortOrder desc, _id asc)
 ```
 
 `src/lib/sanity/queries.ts`는 다음 내용을 정의한다.
