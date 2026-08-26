@@ -19,5 +19,9 @@ const dataset = requireEnvironmentVariable(
   import.meta.env.SANITY_DATASET,
   "SANITY_DATASET",
 );
+const readToken = requireEnvironmentVariable(
+  import.meta.env.SANITY_API_READ_TOKEN,
+  "SANITY_API_READ_TOKEN",
+);
 
-export { dataset, projectId };
+export { dataset, projectId, readToken };
