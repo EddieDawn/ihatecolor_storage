@@ -167,17 +167,18 @@ Docker는 개발 도구 버전을 통일하지만 소스 코드와 비밀값을 
 - `.env.example`로 필요한 환경변수 이름만 문서화
 - 실제 Sanity 토큰과 비밀값은 Git에 커밋하지 않음
 
-초기 Docker 구성은 Astro 애플리케이션 하나만 실행한다. 관리형 Sanity를 사용하므로 데이터베이스나 CMS 서버를 로컬 Compose 서비스로 먼저 추가하지 않는다. 실제로 두 번째 서비스가 필요해질 때 `compose.yaml`을 확장한다.
+Docker Compose는 Astro 웹 애플리케이션과 Sanity Studio를 별도 서비스로 실행한다. Sanity의 데이터베이스는 클라우드에 있으며 로컬 `studio` 서비스는 콘텐츠 관리 UI만 제공한다. 두 서비스는 의존성 설치 경로와 pnpm 저장소를 공유하지 않는다.
 
 Astro 개발 서버는 컨테이너의 대표 프로세스로 실행한다. 컨테이너 시작 시 `pnpm install --frozen-lockfile`로 기존 `node_modules` named volume을 현재 lockfile과 동기화한 뒤 서버를 실행한다. `docker compose up`으로 컨테이너와 서버를 함께 시작하고, `/health` healthcheck로 준비 상태를 확인하며, `docker compose down`으로 함께 종료한다.
 
 현재 구현 파일:
 
-- `Dockerfile`: Node.js `24.19.0`, pnpm `11.22.0`, Git과 SSH 클라이언트를 포함한 개발 이미지
-- `compose.yaml`: Astro 개발 서버, bind mount, `node_modules`와 pnpm 저장소 volume, healthcheck
+- `Dockerfile`: Astro용 Node.js `24.19.0`, pnpm `11.22.0` 개발 이미지
+- `studio/Dockerfile`: Sanity Studio 전용 개발 이미지
+- `compose.yaml`: Astro와 Studio 서비스, 각각의 bind mount와 의존성 volume, Astro healthcheck
 - `.dockerignore`: 이미지 빌드에 불필요한 프로토타입, 문서, 로컬 출력과 비밀값 제외
 - `.env.example`: 호스트의 Astro 포트 예시
-- `pnpm-workspace.yaml`: 의존성 설치 스크립트 중 `esbuild`만 명시적으로 허용
+- `pnpm-workspace.yaml`, `studio/pnpm-workspace.yaml`: 각 서비스에서 `esbuild` 설치 스크립트만 명시적으로 허용
 - `.devcontainer/devcontainer.json`: 기존 Compose의 `web` 서비스를 재사용하는 VS Code Dev Container
 - `.vscode/extensions.json`: 프로젝트 및 컨테이너에 필요한 VS Code 확장 프로그램 추천 목록
 - `.vscode/settings.json`: 저장 시 포맷, ESLint 자동 수정과 Astro 포매터 설정

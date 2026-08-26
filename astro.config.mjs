@@ -5,4 +5,16 @@ export default defineConfig({
   server: {
     host: true,
   },
+  vite: {
+    server: {
+      watch: {
+        ignored: [
+          "**/.astro/**",
+          "**/.pnpm-store/**",
+          "**/dist/**",
+          "**/studio/**",
+        ],
+      },
+    },
+  },
 });

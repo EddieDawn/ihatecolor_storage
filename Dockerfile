@@ -21,7 +21,6 @@ RUN npm install --global "pnpm@${PNPM_VERSION}" \
 WORKDIR /workspace
 
 COPY --chown=node:node package.json pnpm-lock.yaml pnpm-workspace.yaml ./
-COPY --chown=node:node studio/package.json ./studio/package.json
 
 USER node
 
@@ -30,9 +29,7 @@ RUN --mount=type=cache,id=ihatecolor-pnpm,target=/pnpm/store,uid=1000,gid=1000 \
 
 COPY --chown=node:node astro.config.mjs tsconfig.json ./
 COPY --chown=node:node src ./src
-COPY --chown=node:node studio ./studio
 
 EXPOSE 4321
-EXPOSE 3333
 
 CMD ["sh", "-c", "pnpm install --frozen-lockfile --store-dir /pnpm/store && rm -f .astro/dev.json && exec pnpm dev --host 0.0.0.0"]

@@ -2,14 +2,18 @@
   "name": "ihatecolor-storage",
   "dockerComposeFile": "../compose.yaml",
   "service": "web",
+  "runServices": ["web", "studio"],
   "workspaceFolder": "/workspace",
   "shutdownAction": "stopCompose",
   "remoteUser": "node",
   "postCreateCommand": "pnpm install --frozen-lockfile --store-dir /pnpm/store",
-  "forwardPorts": [4321],
+  "forwardPorts": [4321, 3333],
   "portsAttributes": {
     "4321": {
       "label": "Astro development server"
+    },
+    "3333": {
+      "label": "Sanity Studio"
     }
   },
   "customizations": {

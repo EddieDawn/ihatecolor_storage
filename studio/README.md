@@ -15,19 +15,25 @@ SANITY_STUDIO_DATASET=production
 
 ## 실행
 
-프로젝트 루트에서 실행한다.
+Docker 개발환경에서는 프로젝트 루트에서 Studio 서비스만 실행한다.
 
 ```sh
-pnpm studio:dev
+docker compose up --build --detach studio
 ```
 
-Docker 개발환경에서는 컨테이너의 `3333` 포트가 호스트에 연결된다. 기본 접속 주소는 `http://localhost:3333`이다.
+Astro와 Studio를 함께 시작하려면 서비스 이름을 생략한다.
+
+```sh
+docker compose up --build --detach
+```
+
+Studio 컨테이너의 `3333` 포트가 호스트에 연결된다. 기본 접속 주소는 `http://localhost:3333`이다. Studio는 Astro의 `node_modules`와 pnpm 저장소를 공유하지 않는다.
 
 ## 검사와 빌드
 
 ```sh
-pnpm studio:typecheck
-pnpm studio:build
+docker compose exec studio pnpm typecheck
+docker compose exec studio pnpm build
 ```
 
 Studio를 실행하거나 빌드하려면 먼저 실제 Sanity 프로젝트 ID와 dataset을 설정해야 한다.

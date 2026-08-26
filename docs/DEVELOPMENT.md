@@ -12,10 +12,10 @@
 프로젝트 루트에서 실행한다.
 
 ```powershell
-docker compose up --build --detach web
+docker compose up --build --detach
 ```
 
-이 명령은 개발 컨테이너를 시작하고 named volume의 의존성을 `pnpm-lock.yaml`과 동기화한 뒤 Astro 개발 서버를 실행한다. 별도의 컨테이너 셸에서 `pnpm install`이나 `pnpm dev`를 다시 실행하지 않는다. lockfile과 설치 상태가 이미 일치하면 pnpm 저장소 캐시를 사용해 설치 검사가 빠르게 끝난다.
+이 명령은 `web`과 `studio` 컨테이너를 함께 시작한다. 두 서비스는 각각의 lockfile, `node_modules`, pnpm 저장소를 사용한다. 별도의 컨테이너 셸에서 `pnpm install`, `pnpm dev` 또는 `pnpm studio:dev`를 다시 실행하지 않는다.
 
 컨테이너 상태를 확인한다.
 
@@ -27,6 +27,7 @@ docker compose ps
 
 - 개발 서버: `http://localhost:4321/`
 - 상태 확인: `http://localhost:4321/health`
+- Sanity Studio: `http://localhost:3333/`
 
 현재 루트 페이지는 제품 UI를 구현하기 전의 빈 자리표시자다. 제품 화면은 `prototype-c/`와 `docs/DESIGN_SYSTEM.md`를 기준으로 별도 구현한다.
 
@@ -44,6 +45,7 @@ Astro 개발 서버는 컨테이너의 대표 프로세스로 실행되며 서�
 
 ```powershell
 docker compose logs --follow web
+docker compose logs --follow studio
 ```
 
 ## 4. 전체 검증
@@ -112,8 +114,8 @@ Astro 개발 서버도 컨테이너와 함께 종료된다.
 1. Git에서 최신 변경사항을 받는다.
 2. Docker 엔진을 실행한다.
 3. 필요한 경우 `.env.example`을 참고해 로컬 `.env`를 만든다.
-4. `docker compose up --build --detach web`을 실행한다.
-5. `docker compose ps`에서 `healthy` 상태를 확인한다.
+4. `docker compose up --build --detach`를 실행한다.
+5. `docker compose ps`에서 `web`과 `studio` 상태를 확인한다.
 
 다른 환경에서 새 의존성이 포함된 커밋을 받은 경우에도 같은 시작 명령이 기존 `node_modules` volume을 최신 lockfile과 자동으로 동기화한다.
 
