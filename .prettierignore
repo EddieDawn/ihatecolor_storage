@@ -2,6 +2,8 @@
 dist/
 node_modules/
 .pnpm-store/
+studio/.sanity/
+studio/dist/
 pnpm-lock.yaml
 landingpage_example.html
 photospage_example.html

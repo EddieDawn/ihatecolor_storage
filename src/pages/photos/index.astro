@@ -1,5 +1,5 @@
 ---
-import PhotoListingPage from "../../components/photos/PhotoListingPage.astro";
+import PhotoJournalView from "../../components/photos/PhotoJournalView.astro";
 import {
   getPhotoPageCount,
   getPhotoPageItems,
@@ -10,7 +10,7 @@ const photos = await getPhotos();
 const totalPages = getPhotoPageCount(photos.length);
 ---
 
-<PhotoListingPage
+<PhotoJournalView
   photos={getPhotoPageItems(photos, 1)}
   currentPage={1}
   totalPages={totalPages}

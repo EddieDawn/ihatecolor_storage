@@ -1,5 +1,5 @@
 ---
-import PhotoListingPage from "../../../components/photos/PhotoListingPage.astro";
+import PhotoJournalView from "../../../components/photos/PhotoJournalView.astro";
 import {
   getPhotoPageCount,
   getPhotoPageItems,
@@ -35,7 +35,7 @@ export async function getStaticPaths() {
 const { photos, currentPage, totalPages, totalItems } = Astro.props;
 ---
 
-<PhotoListingPage
+<PhotoJournalView
   photos={photos}
   currentPage={currentPage}
   totalPages={totalPages}

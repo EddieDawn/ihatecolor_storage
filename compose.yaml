@@ -12,8 +12,6 @@ services:
       - "${ASTRO_PORT:-4321}:4321"
     environment:
       ASTRO_TELEMETRY_DISABLED: "1"
-      CHOKIDAR_USEPOLLING: "true"
-      CHOKIDAR_INTERVAL: "250"
     volumes:
       - .:/workspace
       - node_modules:/workspace/node_modules
@@ -30,6 +28,26 @@ services:
       start_period: 20s
     stop_grace_period: 5s
 
+  studio:
+    build:
+      context: ./studio
+      target: development
+      args:
+        PNPM_VERSION: 11.22.0
+    init: true
+    ports:
+      - "${SANITY_STUDIO_PORT:-3333}:3333"
+    environment:
+      CHOKIDAR_USEPOLLING: "true"
+      CHOKIDAR_INTERVAL: "250"
+    volumes:
+      - ./studio:/studio
+      - studio_node_modules:/studio/node_modules
+      - studio_pnpm_store:/pnpm/store
+    stop_grace_period: 5s
+
 volumes:
   node_modules:
   pnpm_store:
+  studio_node_modules:
+  studio_pnpm_store:

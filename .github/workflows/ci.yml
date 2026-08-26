@@ -21,6 +21,9 @@ jobs:
     name: Validate and build
     runs-on: ubuntu-latest
     timeout-minutes: 10
+    env:
+      SANITY_PROJECT_ID: ${{ vars.SANITY_PROJECT_ID }}
+      SANITY_DATASET: ${{ vars.SANITY_DATASET }}
 
     steps:
       - name: Checkout repository

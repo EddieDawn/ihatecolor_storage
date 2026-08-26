@@ -2,6 +2,8 @@ node_modules/
 dist/
 .astro/
 .pnpm-store/
+studio/.sanity/
+studio/dist/
 
 .env
 .env.*
