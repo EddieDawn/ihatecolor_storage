@@ -64,10 +64,9 @@
 | ----------- | ---------------------------------------------- |
 | `id`        | 데이터 소스가 바뀌어도 작품을 식별하는 영구 ID |
 | `slug`      | `/photos/[slug]` 형식의 안정적인 공개 URL      |
-| `image`     | 로컬 이미지 또는 CMS 이미지 참조               |
+| `image`     | Sanity CDN 이미지의 URL과 실제 너비·높이        |
 | `title`     | 작품명                                         |
 | `altText`   | 이미지의 의미를 전달하는 대체 텍스트           |
-| `status`    | `draft` 또는 `published` 게시 상태             |
 | `sortOrder` | 목록과 랜딩에서의 표시 순서                    |
 
 선택 필드:
@@ -90,55 +89,26 @@
 - 필요하면 기존 사진을 `Singles`와 같은 기본 앨범으로 마이그레이션할 수 있다.
 - 앨범 추가가 기존 `Photo`의 영구 ID와 URL을 변경해서는 안 된다.
 
-## 5. 로컬 모크 콘텐츠
+## 5. Sanity 콘텐츠
 
-초기 콘텐츠는 로컬 Astro Content Collection으로 관리한다. 사진 한 장마다 데이터 파일과 이미지를 함께 둔다.
+사진과 랜딩 페이지의 사진 선택은 Sanity에서 관리한다. 프로젝트에는 운영 사진 파일이나 Astro Content Collection을 유지하지 않는다.
 
-```text
-src/data/photos/
-  mock-photo-01/
-    index.md
-    image.jpg
-  mock-photo-02/
-    index.md
-    image.jpg
-```
+데이터는 다음 순서로 처리한다.
 
-`index.md`의 frontmatter는 `Photo` 모델을 따르고 본문은 비워둘 수 있다. 로컬 이미지는 Astro가 크기 추론과 이미지 최적화를 수행할 수 있도록 `src/` 아래에 둔다.
+1. `src/lib/sanity/fetch.ts`가 GROQ 쿼리로 Sanity 응답을 가져온다.
+2. `src/lib/sanity/response-schemas.ts`가 외부 응답 형식을 Zod로 검증한다.
+3. `src/lib/sanity/photo-adapter.ts`가 검증된 응답을 애플리케이션 `Photo` 모델로 변환한다.
+4. `src/lib/content/photos.ts`가 중복을 검사하고 `sortOrder` 순서로 정렬한다.
+5. 페이지와 컴포넌트는 Sanity SDK가 아닌 콘텐츠 조회 함수만 호출한다.
 
-현재 `src/content.config.ts`의 `photos` 컬렉션이 이 계약을 검증한다. `id`, `slug`, `image`, `title`, `altText`, `status`, `sortOrder`가 누락되거나 형식에 맞지 않으면 Astro 동기화와 빌드가 실패한다. 세부 작성 규칙과 frontmatter 예시는 [`src/data/photos/README.md`](../src/data/photos/README.md)에 기록한다.
+GROQ 쿼리에서 Sanity 초안 문서를 제외하므로 화면에는 게시된 문서만 전달된다. 랜딩 페이지는 고정 slug에 의존하지 않고 Studio의 `landingPage` 문서에서 선택한 Hero 한 장과 Story 여섯 장을 사용한다.
 
-애플리케이션은 `src/lib/content/photos.ts`의 조회 함수만 사용한다. 이 계층은 다음 규칙을 적용한다.
+Sanity CDN 이미지는 Astro `Image` 컴포넌트와 Sharp를 통해 여러 크기의 WebP로 정적 최적화한다. `astro.config.mjs`는 `cdn.sanity.io`를 허용하고, 이미지 URL과 실제 너비·높이를 함께 전달해 레이아웃 이동을 줄인다.
 
-- 기본 조회에서는 `published` 사진만 반환한다.
-- `id`, `slug`, `sortOrder` 중복을 오류로 처리한다.
-- `sortOrder` 오름차순으로 정렬한다.
-- UI가 로컬 파일 구조나 Astro 컬렉션 엔트리에 직접 의존하지 않게 한다.
+## 6. CMS 운영 원칙
 
-모크 데이터는 정상적인 예시만 포함하지 않는다. 다음 상태도 함께 준비한다.
-
-- 세로형, 가로형, 정사각형과 극단적인 비율의 이미지
-- 짧은 제목과 긴 제목
-- 선택 메타데이터가 없는 사진
-- 빈 목록과 사진 한 장만 있는 목록
-- 페이지네이션 경계보다 많은 사진
-- `draft`와 `published` 상태
-
-현재 `src/data/photos/`에는 위 조건을 검증하기 위한 13개 모크 작품이 있다. 기존 프로토타입 사진의 복사본, 개발 fixture 전용 극단 비율 이미지 2개와 정확한 `1254×1254` 정사각형 이미지 1개를 사용하며, 실제 포트폴리오 콘텐츠로 취급하지 않는다.
-
-빈 목록과 한 장 목록은 별도 데이터 파일을 중복해 만들지 않고 `src/lib/content/photo-scenarios.ts`에서 재현한다. 사진 목록은 페이지당 9개를 사용하며 페이지네이션 경계 시나리오는 호출 시 전달한 `pageSize + 1`개를 반환한다.
-
-사진 목록의 로컬 이미지는 Astro `Image` 컴포넌트와 Sharp를 통해 여러 크기의 WebP로 정적 최적화한다. 목록 첫 행의 세 이미지만 우선 로딩하고 나머지는 지연 로딩한다.
-
-초기에는 실제 네트워크 API가 없으므로 MSW와 같은 API 모킹 도구를 도입하지 않는다. CMS 연동이나 네트워크 오류 테스트가 필요해지는 시점에 추가한다.
-
-## 6. CMS 전환 원칙
-
-최종 운영에서는 사진작가가 Sanity Studio에 로그인해 사진과 공개 정보를 관리한다.
-
-- 로컬 모크 데이터와 Sanity 응답은 동일한 애플리케이션 `Photo` 모델로 정규화한다.
 - 화면 컴포넌트에서 Sanity SDK를 직접 호출하지 않는다.
-- 콘텐츠 조회 계층 또는 어댑터를 두어 로컬 소스와 Sanity 소스를 교체한다.
+- 외부 응답은 검증 및 어댑터 계층을 통과한 뒤 공통 모델로 사용한다.
 - 별도의 커스텀 관리자 화면과 범용 백엔드 API는 초기 범위에 포함하지 않는다.
 - 사진을 공개한 뒤 사이트에 반영하는 빌드 및 배포 방식은 배포 환경을 결정할 때 확정한다.
 
