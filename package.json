@@ -23,6 +23,7 @@
     "studio:typecheck": "pnpm --dir studio typecheck"
   },
   "dependencies": {
+    "@sanity/client": "8.2.0",
     "astro": "7.2.2",
     "sharp": "0.35.3"
   },
