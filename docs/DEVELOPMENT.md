@@ -119,6 +119,15 @@ Astro 개발 서버도 컨테이너와 함께 종료된다.
 
 다른 환경에서 새 의존성이 포함된 커밋을 받은 경우에도 같은 시작 명령이 기존 `node_modules` volume을 최신 lockfile과 자동으로 동기화한다.
 
+Astro는 비공개 Sanity dataset을 빌드할 때 다음 값을 사용한다.
+
+- `SANITY_PROJECT_ID`: Sanity 프로젝트 식별자
+- `SANITY_DATASET`: 조회할 dataset 이름
+- `SANITY_API_READ_TOKEN`: 읽기 전용 Viewer 토큰
+
+실제 값은 로컬 `.env.local`에만 저장한다. 특히 `SANITY_API_READ_TOKEN`은
+`.env.example`, 소스 코드, Git 커밋 또는 문서에 실제 값을 기록하지 않는다.
+
 기본 포트 `4321`이 이미 사용 중이면 로컬 `.env`에 다른 호스트 포트를 지정한다.
 
 ```dotenv
@@ -140,6 +149,10 @@ pnpm은 검토되지 않은 의존성 설치 스크립트를 기본적으로 차
 - `main` 브랜치를 대상으로 하는 Pull Request
 - `main` 브랜치에 반영된 push
 - GitHub Actions 화면에서의 수동 실행
+
+GitHub 저장소에는 `SANITY_PROJECT_ID`와 `SANITY_DATASET`을 Repository
+variables로, `SANITY_API_READ_TOKEN`을 Repository secret으로 등록한다. 토큰은
+workflow 로그나 일반 설정 화면에 노출되지 않아야 한다.
 
 PR에 새 커밋이 추가되면 같은 PR의 이전 CI 실행은 취소되고 최신 커밋만 검사한다. 현재 CI는 애플리케이션의 정적 빌드를 검사하지만 개발용 `Dockerfile`의 이미지 빌드는 반복하지 않는다.
 

@@ -103,6 +103,8 @@
 
 GROQ 쿼리에서 Sanity 초안 문서를 제외하므로 화면에는 게시된 문서만 전달된다. 랜딩 페이지는 고정 slug에 의존하지 않고 Studio의 `landingPage` 문서에서 선택한 Hero 한 장과 Story 여섯 장을 사용한다.
 
+Sanity dataset은 비공개로 운영하고 Astro 정적 빌드에는 읽기 전용 Viewer 토큰만 제공한다. 프로젝트 ID와 dataset 이름은 일반 환경변수로, 읽기 토큰은 각 실행 환경의 secret으로 관리한다. 토큰은 브라우저 코드나 정적 결과물에 포함하지 않는다.
+
 Sanity CDN 이미지는 Astro `Image` 컴포넌트와 Sharp를 통해 여러 크기의 WebP로 정적 최적화한다. `astro.config.mjs`는 `cdn.sanity.io`를 허용하고, 이미지 URL과 실제 너비·높이를 함께 전달해 레이아웃 이동을 줄인다.
 
 ## 6. CMS 운영 원칙
