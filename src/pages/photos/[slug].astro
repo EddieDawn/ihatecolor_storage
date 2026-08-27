@@ -1,21 +1,33 @@
 ---
 import type { Photo } from "../../lib/content/photo-model";
+import {
+  getPhotoPageHref,
+  PHOTO_PAGE_SIZE,
+} from "../../lib/content/photo-pagination";
 import { getPhotos } from "../../lib/content/photos";
 
 interface Props {
   photo: Photo;
+  returnHref: string;
 }
 
 export async function getStaticPaths() {
   const photos = await getPhotos();
 
-  return photos.map((photo) => ({
-    params: { slug: photo.slug },
-    props: { photo },
-  }));
+  return photos.map((photo, index) => {
+    const page = Math.floor(index / PHOTO_PAGE_SIZE) + 1;
+
+    return {
+      params: { slug: photo.slug },
+      props: {
+        photo,
+        returnHref: `${getPhotoPageHref(page)}#journal-title`,
+      },
+    };
+  });
 }
 
-const { photo } = Astro.props;
+const { photo, returnHref } = Astro.props;
 const formattedShotAt = photo.shotAt?.replaceAll("-", ".");
 const photoMeta = [photo.location, formattedShotAt].filter(Boolean).join(" · ");
 ---
@@ -37,7 +49,7 @@ const photoMeta = [photo.location, formattedShotAt].filter(Boolean).join(" · ")
     <header class="detail-header">
       <p>Photo detail</p>
       <h1>{photo.title}</h1>
-      <a href="/photos/">Back to journal</a>
+      <a href={returnHref}>Back to journal</a>
     </header>
 
     <main class="detail-stage">
