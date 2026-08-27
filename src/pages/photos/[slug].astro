@@ -74,6 +74,25 @@ const photoMeta = [photo.location, formattedShotAt].filter(Boolean).join(" · ")
         backLink.href = "/";
         backLink.textContent = "Back to landing";
       }
+
+      const canReturnToPreviousView = (() => {
+        if (!document.referrer || window.history.length <= 1) return false;
+
+        const referrer = new URL(document.referrer);
+        const cameFromGallery =
+          referrer.pathname === "/" ||
+          referrer.pathname === "/photos/" ||
+          /^\/photos\/page\/\d+\/$/.test(referrer.pathname);
+
+        return referrer.origin === window.location.origin && cameFromGallery;
+      })();
+
+      backLink?.addEventListener("click", (event) => {
+        if (!canReturnToPreviousView) return;
+
+        event.preventDefault();
+        window.history.back();
+      });
     </script>
   </body>
 </html>
