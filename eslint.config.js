@@ -10,8 +10,6 @@ export default [
       "node_modules/**",
       "studio/.sanity/**",
       "studio/dist/**",
-      "prototype-b/**",
-      "prototype-c/**",
     ],
   },
   js.configs.recommended,

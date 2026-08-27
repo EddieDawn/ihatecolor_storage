@@ -18,14 +18,13 @@ const photoMeta = (photo: Photo) =>
 
 const documentTitle =
   currentPage === 1
-    ? "Journal — FIELD"
-    : `Journal — Page ${currentPage} — FIELD`;
+    ? "Journal — Justyes"
+    : `Journal — Page ${currentPage} — Justyes`;
 const previousPageHref =
   currentPage > 1 ? getPhotoPageHref(currentPage - 1) : undefined;
 const nextPageHref =
   currentPage < totalPages ? getPhotoPageHref(currentPage + 1) : undefined;
-const paginationHref = (page: number) =>
-  `${getPhotoPageHref(page)}#journal-title`;
+const paginationHref = (page: number) => getPhotoPageHref(page);
 ---
 
 <!doctype html>
@@ -42,46 +41,25 @@ const paginationHref = (page: number) =>
     {nextPageHref && <link rel="next" href={nextPageHref} />}
   </head>
   <body>
-    <a class="skip-link" href="#journal-grid">작품 목록으로 건너뛰기</a>
-
     <header class="site-header">
-      <nav class="header-side" aria-label="주요 메뉴">
-        <a aria-current="page" href="/photos/">Journal</a>
-        <button type="button" data-coming-soon="Photographer">
-          Photographer
-        </button>
+      <div class="header-side">
         <button type="button" data-coming-soon="Contact">Contact</button>
-      </nav>
+      </div>
 
-      <button
-        class="wordmark"
-        type="button"
-        data-coming-soon="랜딩 페이지"
-        aria-label="FIELD 홈"
-      >
-        FIELD
-      </button>
+      <a class="wordmark" href="/" aria-label="Justyes 홈"> Justyes </a>
 
       <div class="header-side header-side--right">
-        <span>Seoul, KR</span>
-        <a href="#journal-grid">Index</a>
-        <button type="button" data-coming-soon="Instagram">Instagram</button>
+        <a
+          href="https://www.instagram.com/justyesgallery?igsi=MWJqaXJ5MWVqa2QyZg=="
+          >Instagram</a
+        >
       </div>
     </header>
 
     <main>
-      <section class="intro" aria-labelledby="page-title">
-        <p class="eyebrow">Selected journal · 2024—2026</p>
-        <h1 id="page-title">Ordinary scenes,<br />held a little longer.</h1>
-        <p class="intro-note">
-          도시의 표면과 그 안을 지나는 사람들.<br />
-          이름 없이 흘러가는 순간을 기록합니다.
-        </p>
-      </section>
-
       <section class="journal" aria-labelledby="journal-title">
         <div class="journal-toolbar">
-          <h2 id="journal-title" tabindex="-1">Journal</h2>
+          <h1 id="journal-title">Journal</h1>
           <p class="journal-page">
             Page {String(currentPage).padStart(2, "0")}
           </p>
@@ -92,7 +70,7 @@ const paginationHref = (page: number) =>
 
         {
           photos.length > 0 ? (
-            <div class="journal-grid" id="journal-grid">
+            <div class="journal-grid">
               {photos.map((photo, index) => {
                 const meta = photoMeta(photo);
 
@@ -124,9 +102,7 @@ const paginationHref = (page: number) =>
               })}
             </div>
           ) : (
-            <p class="empty-state" id="journal-grid">
-              공개된 사진이 아직 없습니다.
-            </p>
+            <p class="empty-state">공개된 사진이 아직 없습니다.</p>
           )
         }
 
@@ -172,7 +148,7 @@ const paginationHref = (page: number) =>
     <footer>
       <a href="mailto:hello@example.com">hello@example.com</a>
       <p>Available for editorial assignments</p>
-      <p>© FIELD, 2026</p>
+      <p>© Justyes, 2026</p>
     </footer>
 
     <dialog class="coming-soon-dialog" aria-labelledby="coming-soon-title">
@@ -214,16 +190,6 @@ const paginationHref = (page: number) =>
       comingSoonDialog?.addEventListener("click", (event) => {
         if (event.target === comingSoonDialog) comingSoonDialog.close();
       });
-
-      if (window.location.hash === "#journal-title") {
-        const journalTitle =
-          document.querySelector<HTMLElement>("#journal-title");
-
-        requestAnimationFrame(() => {
-          journalTitle?.scrollIntoView({ block: "start" });
-          journalTitle?.focus({ preventScroll: true });
-        });
-      }
     </script>
   </body>
 </html>
@@ -282,21 +248,6 @@ const paginationHref = (page: number) =>
     outline-offset: 4px;
   }
 
-  .skip-link {
-    position: fixed;
-    z-index: 100;
-    top: 12px;
-    left: 12px;
-    padding: 10px 14px;
-    background: var(--ink);
-    color: var(--paper);
-    transform: translateY(-150%);
-  }
-
-  .skip-link:focus {
-    transform: translateY(0);
-  }
-
   .site-header {
     display: grid;
     grid-template-columns: 1fr auto 1fr;
@@ -316,10 +267,6 @@ const paginationHref = (page: number) =>
 
   .header-side--right {
     justify-content: flex-end;
-  }
-
-  .header-side span {
-    color: var(--muted);
   }
 
   .header-side a,
@@ -378,16 +325,6 @@ const paginationHref = (page: number) =>
     line-height: 1;
   }
 
-  .intro {
-    display: grid;
-    grid-template-columns: 1fr 2fr 1fr;
-    align-items: end;
-    min-height: 440px;
-    padding: 90px var(--side) 108px;
-    border-bottom: 1px solid var(--line);
-  }
-
-  .eyebrow,
   .journal-count,
   .journal-page {
     margin: 0;
@@ -395,23 +332,6 @@ const paginationHref = (page: number) =>
     font-size: 10px;
     letter-spacing: 0.1em;
     text-transform: uppercase;
-  }
-
-  .intro h1 {
-    max-width: 740px;
-    margin: 0;
-    font-size: clamp(48px, 5.35vw, 86px);
-    font-weight: 400;
-    letter-spacing: -0.055em;
-    line-height: 0.95;
-  }
-
-  .intro-note {
-    justify-self: end;
-    margin: 0;
-    color: #45443f;
-    font-size: 11px;
-    line-height: 1.8;
   }
 
   .journal {
@@ -425,7 +345,7 @@ const paginationHref = (page: number) =>
     height: 112px;
   }
 
-  .journal-toolbar h2 {
+  .journal-toolbar h1 {
     justify-self: start;
     margin: 0;
     font-size: 11px;
@@ -647,29 +567,6 @@ const paginationHref = (page: number) =>
       justify-self: start;
       padding: 8px 0;
       font-size: 21px;
-    }
-
-    .intro {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      justify-content: flex-end;
-      min-height: 465px;
-      padding-top: 82px;
-      padding-bottom: 34px;
-    }
-
-    .intro h1 {
-      order: 2;
-      margin-top: 20px;
-      font-size: clamp(43px, 13.2vw, 58px);
-    }
-
-    .intro-note {
-      order: 3;
-      justify-self: auto;
-      margin-top: 50px;
-      font-size: 10px;
     }
 
     .journal {

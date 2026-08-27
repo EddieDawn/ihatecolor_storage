@@ -29,7 +29,7 @@ docker compose ps
 - 상태 확인: `http://localhost:4321/health`
 - Sanity Studio: `http://localhost:3333/`
 
-현재 루트 페이지는 제품 UI를 구현하기 전의 빈 자리표시자다. 제품 화면은 `prototype-c/`와 `docs/DESIGN_SYSTEM.md`를 기준으로 별도 구현한다.
+루트 페이지에는 제품 랜딩 UI가 구현되어 있다. 모든 화면의 디자인 기준은 `docs/DESIGN_SYSTEM.md`이다.
 
 ### VS Code Dev Container로 열기
 

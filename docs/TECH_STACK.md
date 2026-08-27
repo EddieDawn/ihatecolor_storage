@@ -9,7 +9,7 @@
 
 이 문서는 `ihatecolor_storage`의 실제 애플리케이션을 구현하기 전에 확정한 기술 스택과 데이터 경계를 기록한다. 구현 과정에서 기술 선택을 변경할 필요가 생기면 변경 이유와 영향을 먼저 검토한 후 이 문서를 갱신한다.
 
-시각 디자인에 관한 기준은 이 문서가 아니라 [`DESIGN_SYSTEM.md`](./DESIGN_SYSTEM.md)를 따른다. `prototype-c/`는 랜딩 페이지, `prototype-b/`는 사진 목록 페이지의 시각적 비교 기준이며 실제 애플리케이션 코드와 분리해 보존한다.
+시각 디자인에 관한 유일한 기준은 이 문서가 아니라 [`DESIGN_SYSTEM.md`](./DESIGN_SYSTEM.md)를 따른다. 과거 비교용 HTML 프로토타입의 규칙은 디자인 시스템으로 이관되었으며 제품은 별도 프로토타입 파일에 의존하지 않는다.
 
 ## 2. 확정된 기술 스택
 
@@ -81,6 +81,8 @@
 
 `id`와 `slug`는 앨범에 종속시키지 않는다. 향후 앨범이 추가되더라도 기존 사진 URL을 유지해 URL 변경과 리디렉션을 최소화한다.
 
+`slug`는 소문자 영문, 숫자와 단어 사이의 단일 하이픈(`-`)만 허용한다. 밑줄, 공백, 대문자, 연속 또는 앞뒤 하이픈은 허용하지 않는다. Sanity Studio에서 게시 전에 같은 규칙을 검증하고, 애플리케이션의 Zod 응답 스키마에서도 다시 검증한다.
+
 ### 4.2 향후 Album 확장
 
 초기 버전에는 앨범 기능을 구현하지 않는다. 필요해지면 `Album 1 : N Photo` 관계를 추가하고 `Photo.albumId`로 연결한다.
@@ -91,7 +93,7 @@
 
 ## 5. Sanity 콘텐츠
 
-사진과 랜딩 페이지의 사진 선택은 Sanity에서 관리한다. 프로젝트에는 운영 사진 파일이나 Astro Content Collection을 유지하지 않는다.
+사진과 랜딩 Hero의 사진 선택은 Sanity에서 관리한다. 프로젝트에는 운영 사진 파일이나 Astro Content Collection을 유지하지 않는다.
 
 데이터는 다음 순서로 처리한다.
 
@@ -101,7 +103,7 @@
 4. `src/lib/content/photos.ts`가 ID와 slug 중복을 검사하고 `sortOrder` 내림차순으로 정렬한다.
 5. 페이지와 컴포넌트는 Sanity SDK가 아닌 콘텐츠 조회 함수만 호출한다.
 
-GROQ 쿼리에서 Sanity 초안 문서를 제외하므로 화면에는 게시된 문서만 전달된다. 랜딩 페이지는 고정 slug에 의존하지 않고 Studio의 `landingPage` 문서에서 선택한 Hero 한 장과 Story 여섯 장을 사용한다.
+GROQ 쿼리에서 Sanity 초안 문서를 제외하므로 화면에는 게시된 문서만 전달된다. 랜딩 페이지는 고정 slug에 의존하지 않고 Studio의 `landingPage` 문서에서 선택한 Hero 한 장을 사용한다.
 
 Sanity dataset은 비공개로 운영하고 Astro 정적 빌드에는 읽기 전용 Viewer 토큰만 제공한다. 프로젝트 ID와 dataset 이름은 일반 환경변수로, 읽기 토큰은 각 실행 환경의 secret으로 관리한다. 토큰은 브라우저 코드나 정적 결과물에 포함하지 않는다.
 
@@ -148,7 +150,7 @@ Astro 개발 서버는 컨테이너의 대표 프로세스로 실행한다. 컨�
 - `Dockerfile`: Astro용 Node.js `24.19.0`, pnpm `11.22.0` 개발 이미지
 - `studio/Dockerfile`: Sanity Studio 전용 개발 이미지
 - `compose.yaml`: Astro와 Studio 서비스, 각각의 bind mount와 의존성 volume, Astro healthcheck
-- `.dockerignore`: 이미지 빌드에 불필요한 프로토타입, 문서, 로컬 출력과 비밀값 제외
+- `.dockerignore`: 이미지 빌드에 불필요한 문서, 로컬 출력과 비밀값 제외
 - `.env.example`: 호스트의 Astro 포트 예시
 - `pnpm-workspace.yaml`, `studio/pnpm-workspace.yaml`: 각 서비스에서 `esbuild` 설치 스크립트만 명시적으로 허용
 - `.devcontainer/devcontainer.json`: 기존 Compose의 `web` 서비스를 재사용하는 VS Code Dev Container
@@ -160,7 +162,7 @@ Astro 개발 서버는 컨테이너의 대표 프로세스로 실행한다. 컨�
 
 Windows와 Docker Desktop의 bind mount에서도 파일 변경을 감지할 수 있도록 개발 컨테이너에서는 polling을 사용한다. Astro 텔레메트리는 컨테이너에서 비활성화한다.
 
-VS Code에서는 Dev Containers 확장 프로그램으로 프로젝트를 열면 Astro, ESLint, Prettier, YAML, markdownlint 확장 프로그램이 컨테이너에 자동 설치된다. Dev Containers와 Containers 확장 프로그램 자체는 호스트 VS Code에 설치한다. 비교 기준인 `prototype-b/`와 `prototype-c/`는 ESLint와 Prettier 검사 대상에서 제외한다.
+VS Code에서는 Dev Containers 확장 프로그램으로 프로젝트를 열면 Astro, ESLint, Prettier, YAML, markdownlint 확장 프로그램이 컨테이너에 자동 설치된다. Dev Containers와 Containers 확장 프로그램 자체는 호스트 VS Code에 설치한다.
 
 상세 실행 방법은 [`DEVELOPMENT.md`](./DEVELOPMENT.md)를 따른다.
 
