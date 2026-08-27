@@ -1,0 +1,255 @@
+---
+import type { Photo } from "../../lib/content/photo-model";
+import {
+  getPhotoPageHref,
+  PHOTO_PAGE_SIZE,
+} from "../../lib/content/photo-pagination";
+import { getPhotos } from "../../lib/content/photos";
+
+interface Props {
+  photo: Photo;
+  returnHref: string;
+}
+
+export async function getStaticPaths() {
+  const photos = await getPhotos();
+
+  return photos.map((photo, index) => {
+    const page = Math.floor(index / PHOTO_PAGE_SIZE) + 1;
+
+    return {
+      params: { slug: photo.slug },
+      props: {
+        photo,
+        returnHref: `${getPhotoPageHref(page)}#journal-title`,
+      },
+    };
+  });
+}
+
+const { photo, returnHref } = Astro.props;
+const formattedShotAt = photo.shotAt?.replaceAll("-", ".");
+const photoMeta = [photo.location, formattedShotAt].filter(Boolean).join(" · ");
+---
+
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta
+      name="description"
+      content={`${photo.title}${photoMeta ? ` — ${photoMeta}` : ""}`}
+    />
+    <title>{photo.title} — FIELD</title>
+  </head>
+  <body class="photo-detail-page">
+    <a class="skip-link" href="#photo">사진으로 건너뛰기</a>
+
+    <header class="detail-header">
+      <p>Photo detail</p>
+      <h1>{photo.title}</h1>
+      <a class="detail-back-link" href={returnHref}>Back to journal</a>
+    </header>
+
+    <main class="detail-stage">
+      <figure id="photo">
+        <img
+          src={photo.image.url}
+          width={photo.image.width}
+          height={photo.image.height}
+          alt={photo.altText}
+        />
+        <figcaption>{photoMeta || "—"}</figcaption>
+      </figure>
+    </main>
+
+    <script>
+      const backLink =
+        document.querySelector<HTMLAnchorElement>(".detail-back-link");
+      const cameFromLanding =
+        new URLSearchParams(window.location.search).get("from") === "landing";
+
+      if (backLink && cameFromLanding) {
+        backLink.href = "/";
+        backLink.textContent = "Back to landing";
+      }
+
+      const canReturnToPreviousView = (() => {
+        if (!document.referrer || window.history.length <= 1) return false;
+
+        const referrer = new URL(document.referrer);
+        const cameFromGallery =
+          referrer.pathname === "/" ||
+          referrer.pathname === "/photos/" ||
+          /^\/photos\/page\/\d+\/$/.test(referrer.pathname);
+
+        return referrer.origin === window.location.origin && cameFromGallery;
+      })();
+
+      backLink?.addEventListener("click", (event) => {
+        if (!canReturnToPreviousView) return;
+
+        event.preventDefault();
+        window.history.back();
+      });
+    </script>
+  </body>
+</html>
+
+<style is:global>
+  :root {
+    --ink: #11110f;
+    --paper: #f2f0eb;
+    --line: rgba(17, 17, 15, 0.22);
+    --muted: #73716b;
+    --side: clamp(58px, 5.2vw, 92px);
+    --sans:
+      "Helvetica Neue", Helvetica, Arial, "Pretendard", "Apple SD Gothic Neo",
+      sans-serif;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  html {
+    min-width: 1100px;
+  }
+
+  body {
+    margin: 0;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  img {
+    display: block;
+    max-width: 100%;
+  }
+
+  :focus-visible {
+    outline: 1px solid var(--ink);
+    outline-offset: 4px;
+  }
+
+  .photo-detail-page {
+    min-height: 100vh;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-size: 9px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .skip-link {
+    position: fixed;
+    z-index: 100;
+    top: 12px;
+    left: 12px;
+    padding: 10px 14px;
+    background: var(--ink);
+    color: var(--paper);
+    transform: translateY(-150%);
+  }
+
+  .skip-link:focus {
+    transform: translateY(0);
+  }
+
+  .detail-header {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    align-items: center;
+    height: 70px;
+    padding: 0 var(--side);
+    border-bottom: 1px solid var(--line);
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+  }
+
+  .detail-header p,
+  .detail-header h1 {
+    margin: 0;
+    font-size: inherit;
+    font-weight: 400;
+  }
+
+  .detail-header h1 {
+    overflow: hidden;
+    text-align: center;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .detail-header a {
+    position: relative;
+    justify-self: end;
+    padding: 8px 0;
+  }
+
+  .detail-header a::after {
+    position: absolute;
+    right: 0;
+    bottom: 3px;
+    left: 0;
+    height: 1px;
+    background: currentColor;
+    content: "";
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 240ms ease;
+  }
+
+  .detail-header a:hover::after,
+  .detail-header a:focus-visible::after {
+    transform: scaleX(1);
+    transform-origin: left;
+  }
+
+  .detail-stage {
+    display: grid;
+    grid-template-columns: 1fr minmax(500px, 5fr) 1fr;
+    align-items: center;
+    height: calc(100vh - 70px);
+    padding: 34px var(--side) 28px;
+  }
+
+  .detail-stage figure {
+    display: grid;
+    grid-column: 2;
+    grid-template-rows: minmax(0, 1fr) auto;
+    justify-items: center;
+    height: 100%;
+    min-height: 0;
+    min-width: 0;
+    margin: 0;
+  }
+
+  .detail-stage img {
+    width: auto;
+    height: auto;
+    max-height: 100%;
+    max-width: 100%;
+    object-fit: contain;
+  }
+
+  .detail-stage figcaption {
+    padding-top: 14px;
+    color: var(--muted);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      transition-duration: 0.01ms !important;
+    }
+  }
+</style>
