@@ -27,20 +27,19 @@ const photoMeta = (photo: Photo) =>
     </script>
   </head>
   <body class="landing-page">
-    <a class="skip-link" href="#story">사진 에세이로 건너뛰기</a>
     <header class="site-header">
-      <a class="brand" href="#top" aria-label="Justyes gallery 홈"
-        ><strong>Justyes</strong><span>Gallery · Wedding stories</span></a
-      >
+      <div class="brand">
+        <strong>Justyes</strong><span>Gallery · Wedding stories</span>
+      </div>
       <nav aria-label="주요 메뉴">
-        <a href="#story">Story</a><a href="/photos/">Photos</a>
+        <a href="/photos/">Photos</a>
       </nav>
       <div class="header-meta">
         <span>Seoul, KR</span><span>Stories / 2026</span>
       </div>
     </header>
 
-    <main id="top">
+    <main>
       <section class="hero" aria-labelledby="hero-title">
         <div class="hero__rail">
           <p>Wedding<br />Archive 2024—26</p><p class="hero__coordinate">
@@ -79,7 +78,7 @@ const photoMeta = (photo: Photo) =>
         </div>
       </section>
 
-      <section class="story" id="story" aria-labelledby="story-title">
+      <section class="story" aria-labelledby="story-title">
         <header class="story-intro reveal">
           <p class="section-number">01 / Wedding essay</p>
           <h2 id="story-title">
@@ -245,9 +244,7 @@ const photoMeta = (photo: Photo) =>
           </figure>
         </div>
         <footer class="story-end reveal">
-          <p>End of essay 01</p><a href="#top"
-            >Back to top <span aria-hidden="true">↑</span></a
-          >
+          <p>End of essay 01</p>
         </footer>
       </section>
     </main>

@@ -24,8 +24,7 @@ const previousPageHref =
   currentPage > 1 ? getPhotoPageHref(currentPage - 1) : undefined;
 const nextPageHref =
   currentPage < totalPages ? getPhotoPageHref(currentPage + 1) : undefined;
-const paginationHref = (page: number) =>
-  `${getPhotoPageHref(page)}#journal-title`;
+const paginationHref = (page: number) => getPhotoPageHref(page);
 ---
 
 <!doctype html>
@@ -42,8 +41,6 @@ const paginationHref = (page: number) =>
     {nextPageHref && <link rel="next" href={nextPageHref} />}
   </head>
   <body>
-    <a class="skip-link" href="#journal-grid">작품 목록으로 건너뛰기</a>
-
     <header class="site-header">
       <nav class="header-side" aria-label="주요 메뉴">
         <a aria-current="page" href="/photos/">Journal</a>
@@ -53,18 +50,10 @@ const paginationHref = (page: number) =>
         <button type="button" data-coming-soon="Contact">Contact</button>
       </nav>
 
-      <button
-        class="wordmark"
-        type="button"
-        data-coming-soon="랜딩 페이지"
-        aria-label="FIELD 홈"
-      >
-        FIELD
-      </button>
+      <a class="wordmark" href="/" aria-label="FIELD 홈"> FIELD </a>
 
       <div class="header-side header-side--right">
         <span>Seoul, KR</span>
-        <a href="#journal-grid">Index</a>
         <button type="button" data-coming-soon="Instagram">Instagram</button>
       </div>
     </header>
@@ -81,7 +70,7 @@ const paginationHref = (page: number) =>
 
       <section class="journal" aria-labelledby="journal-title">
         <div class="journal-toolbar">
-          <h2 id="journal-title" tabindex="-1">Journal</h2>
+          <h2 id="journal-title">Journal</h2>
           <p class="journal-page">
             Page {String(currentPage).padStart(2, "0")}
           </p>
@@ -92,7 +81,7 @@ const paginationHref = (page: number) =>
 
         {
           photos.length > 0 ? (
-            <div class="journal-grid" id="journal-grid">
+            <div class="journal-grid">
               {photos.map((photo, index) => {
                 const meta = photoMeta(photo);
 
@@ -124,9 +113,7 @@ const paginationHref = (page: number) =>
               })}
             </div>
           ) : (
-            <p class="empty-state" id="journal-grid">
-              공개된 사진이 아직 없습니다.
-            </p>
+            <p class="empty-state">공개된 사진이 아직 없습니다.</p>
           )
         }
 
@@ -214,16 +201,6 @@ const paginationHref = (page: number) =>
       comingSoonDialog?.addEventListener("click", (event) => {
         if (event.target === comingSoonDialog) comingSoonDialog.close();
       });
-
-      if (window.location.hash === "#journal-title") {
-        const journalTitle =
-          document.querySelector<HTMLElement>("#journal-title");
-
-        requestAnimationFrame(() => {
-          journalTitle?.scrollIntoView({ block: "start" });
-          journalTitle?.focus({ preventScroll: true });
-        });
-      }
     </script>
   </body>
 </html>
@@ -280,21 +257,6 @@ const paginationHref = (page: number) =>
   :focus-visible {
     outline: 1px solid var(--ink);
     outline-offset: 4px;
-  }
-
-  .skip-link {
-    position: fixed;
-    z-index: 100;
-    top: 12px;
-    left: 12px;
-    padding: 10px 14px;
-    background: var(--ink);
-    color: var(--paper);
-    transform: translateY(-150%);
-  }
-
-  .skip-link:focus {
-    transform: translateY(0);
   }
 
   .site-header {

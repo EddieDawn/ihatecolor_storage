@@ -44,20 +44,6 @@ img {
   -webkit-font-smoothing: antialiased;
 }
 
-.skip-link {
-  position: fixed;
-  z-index: 100;
-  top: 12px;
-  left: 12px;
-  padding: 10px 14px;
-  background: var(--ink);
-  color: var(--paper);
-  transform: translateY(-150%);
-}
-.skip-link:focus {
-  transform: translateY(0);
-}
-
 .site-header {
   position: absolute;
   z-index: 20;
@@ -376,7 +362,6 @@ img {
 }
 .story-end {
   display: flex;
-  justify-content: space-between;
   padding: 34px 0 44px;
   border-top: 1px solid var(--ink);
   color: var(--muted);
@@ -387,14 +372,6 @@ img {
 .story-end p {
   margin: 0;
 }
-.story-end a {
-  color: var(--ink);
-}
-.story-end a span {
-  display: inline-block;
-  margin-left: 18px;
-}
-
 .js .reveal {
   opacity: 0;
   transform: translateY(30px);

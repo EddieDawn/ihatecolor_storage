@@ -21,7 +21,7 @@ export async function getStaticPaths() {
       params: { slug: photo.slug },
       props: {
         photo,
-        returnHref: `${getPhotoPageHref(page)}#journal-title`,
+        returnHref: getPhotoPageHref(page),
       },
     };
   });
@@ -44,8 +44,6 @@ const photoMeta = [photo.location, formattedShotAt].filter(Boolean).join(" · ")
     <title>{photo.title} — FIELD</title>
   </head>
   <body class="photo-detail-page">
-    <a class="skip-link" href="#photo">사진으로 건너뛰기</a>
-
     <header class="detail-header">
       <p>Photo detail</p>
       <h1>{photo.title}</h1>
@@ -53,7 +51,7 @@ const photoMeta = [photo.location, formattedShotAt].filter(Boolean).join(" · ")
     </header>
 
     <main class="detail-stage">
-      <figure id="photo">
+      <figure>
         <img
           src={photo.image.url}
           width={photo.image.width}
@@ -144,21 +142,6 @@ const photoMeta = [photo.location, formattedShotAt].filter(Boolean).join(" · ")
     font-size: 9px;
     line-height: 1.55;
     -webkit-font-smoothing: antialiased;
-  }
-
-  .skip-link {
-    position: fixed;
-    z-index: 100;
-    top: 12px;
-    left: 12px;
-    padding: 10px 14px;
-    background: var(--ink);
-    color: var(--paper);
-    transform: translateY(-150%);
-  }
-
-  .skip-link:focus {
-    transform: translateY(0);
   }
 
   .detail-header {
