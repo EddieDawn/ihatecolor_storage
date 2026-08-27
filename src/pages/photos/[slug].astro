@@ -49,7 +49,7 @@ const photoMeta = [photo.location, formattedShotAt].filter(Boolean).join(" · ")
     <header class="detail-header">
       <p>Photo detail</p>
       <h1>{photo.title}</h1>
-      <a href={returnHref}>Back to journal</a>
+      <a class="detail-back-link" href={returnHref}>Back to journal</a>
     </header>
 
     <main class="detail-stage">
@@ -63,6 +63,18 @@ const photoMeta = [photo.location, formattedShotAt].filter(Boolean).join(" · ")
         <figcaption>{photoMeta || "—"}</figcaption>
       </figure>
     </main>
+
+    <script>
+      const backLink =
+        document.querySelector<HTMLAnchorElement>(".detail-back-link");
+      const cameFromLanding =
+        new URLSearchParams(window.location.search).get("from") === "landing";
+
+      if (backLink && cameFromLanding) {
+        backLink.href = "/";
+        backLink.textContent = "Back to landing";
+      }
+    </script>
   </body>
 </html>
 

@@ -48,13 +48,10 @@ const photoMeta = (photo: Photo) =>
           </p>
         </div>
         <div class="hero__media-wrap">
-          <button
+          <a
             class="photo-button hero__media"
-            type="button"
-            data-viewer
-            data-title={hero.title}
-            data-meta={photoMeta(hero)}
-            aria-label={`${hero.title} 사진 크게 보기`}
+            href={`/photos/${hero.slug}/?from=landing`}
+            aria-label={`${hero.title} 상세 페이지 보기`}
           >
             <Image
               src={hero.image.url}
@@ -68,7 +65,7 @@ const photoMeta = (photo: Photo) =>
               loading="eager"
               fetchpriority="high"
             />
-          </button>
+          </a>
           <p class="hero__image-index">No. 001</p>
         </div>
         <div class="hero__copy">
@@ -97,13 +94,10 @@ const photoMeta = (photo: Photo) =>
 
         <div class="essay-layout">
           <figure class="essay-photo essay-photo--platform reveal">
-            <button
+            <a
               class="photo-button"
-              type="button"
-              data-viewer
-              data-title={platform.title}
-              data-meta={photoMeta(platform)}
-              aria-label={`${platform.title} 사진 크게 보기`}
+              href={`/photos/${platform.slug}/?from=landing`}
+              aria-label={`${platform.title} 상세 페이지 보기`}
               ><Image
                 src={platform.image.url}
                 width={platform.image.width}
@@ -114,7 +108,7 @@ const photoMeta = (photo: Photo) =>
                 format="webp"
                 quality={86}
                 loading="lazy"
-              /></button
+              /></a
             >
             <figcaption>
               <span>{platform.title}</span><span>{photoMeta(platform)}</span
@@ -122,13 +116,10 @@ const photoMeta = (photo: Photo) =>
             </figcaption>
           </figure>
           <figure class="essay-photo essay-photo--walk reveal">
-            <button
+            <a
               class="photo-button"
-              type="button"
-              data-viewer
-              data-title={walk.title}
-              data-meta={photoMeta(walk)}
-              aria-label={`${walk.title} 사진 크게 보기`}
+              href={`/photos/${walk.slug}/?from=landing`}
+              aria-label={`${walk.title} 상세 페이지 보기`}
               ><Image
                 src={walk.image.url}
                 width={walk.image.width}
@@ -139,7 +130,7 @@ const photoMeta = (photo: Photo) =>
                 format="webp"
                 quality={86}
                 loading="lazy"
-              /></button
+              /></a
             >
             <figcaption>
               <span>{walk.title}</span><span>{photoMeta(walk)}</span><span
@@ -153,13 +144,10 @@ const photoMeta = (photo: Photo) =>
             </p><cite>Justyes note, Spring 2026</cite>
           </blockquote>
           <figure class="essay-photo essay-photo--arrival reveal">
-            <button
+            <a
               class="photo-button"
-              type="button"
-              data-viewer
-              data-title={arrival.title}
-              data-meta={photoMeta(arrival)}
-              aria-label={`${arrival.title} 사진 크게 보기`}
+              href={`/photos/${arrival.slug}/?from=landing`}
+              aria-label={`${arrival.title} 상세 페이지 보기`}
               ><Image
                 src={arrival.image.url}
                 width={arrival.image.width}
@@ -170,7 +158,7 @@ const photoMeta = (photo: Photo) =>
                 format="webp"
                 quality={86}
                 loading="lazy"
-              /></button
+              /></a
             >
             <figcaption>
               <span>{arrival.title}</span><span>{photoMeta(arrival)}</span><span
@@ -179,13 +167,10 @@ const photoMeta = (photo: Photo) =>
             </figcaption>
           </figure>
           <figure class="essay-photo essay-photo--bicycle reveal">
-            <button
+            <a
               class="photo-button"
-              type="button"
-              data-viewer
-              data-title={bicycle.title}
-              data-meta={photoMeta(bicycle)}
-              aria-label={`${bicycle.title} 사진 크게 보기`}
+              href={`/photos/${bicycle.slug}/?from=landing`}
+              aria-label={`${bicycle.title} 상세 페이지 보기`}
               ><Image
                 src={bicycle.image.url}
                 width={bicycle.image.width}
@@ -196,7 +181,7 @@ const photoMeta = (photo: Photo) =>
                 format="webp"
                 quality={86}
                 loading="lazy"
-              /></button
+              /></a
             >
             <figcaption>
               <span>{bicycle.title}</span><span>{photoMeta(bicycle)}</span><span
@@ -213,13 +198,10 @@ const photoMeta = (photo: Photo) =>
             </p>
           </div>
           <figure class="essay-photo essay-photo--harbor reveal">
-            <button
+            <a
               class="photo-button"
-              type="button"
-              data-viewer
-              data-title={harbor.title}
-              data-meta={photoMeta(harbor)}
-              aria-label={`${harbor.title} 사진 크게 보기`}
+              href={`/photos/${harbor.slug}/?from=landing`}
+              aria-label={`${harbor.title} 상세 페이지 보기`}
               ><Image
                 src={harbor.image.url}
                 width={harbor.image.width}
@@ -230,7 +212,7 @@ const photoMeta = (photo: Photo) =>
                 format="webp"
                 quality={86}
                 loading="lazy"
-              /></button
+              /></a
             >
             <figcaption>
               <span>{harbor.title}</span><span>{photoMeta(harbor)}</span><span
@@ -239,13 +221,10 @@ const photoMeta = (photo: Photo) =>
             </figcaption>
           </figure>
           <figure class="essay-photo essay-photo--closing reveal">
-            <button
+            <a
               class="photo-button"
-              type="button"
-              data-viewer
-              data-title={closing.title}
-              data-meta={photoMeta(closing)}
-              aria-label={`${closing.title} 사진 크게 보기`}
+              href={`/photos/${closing.slug}/?from=landing`}
+              aria-label={`${closing.title} 상세 페이지 보기`}
               ><Image
                 src={closing.image.url}
                 width={closing.image.width}
@@ -256,7 +235,7 @@ const photoMeta = (photo: Photo) =>
                 format="webp"
                 quality={86}
                 loading="lazy"
-              /></button
+              /></a
             >
             <figcaption>
               <span>{closing.title}</span><span>{photoMeta(closing)}</span><span
@@ -272,29 +251,6 @@ const photoMeta = (photo: Photo) =>
         </footer>
       </section>
     </main>
-
-    <dialog class="viewer" aria-label="사진 상세 보기">
-      <header>
-        <p>
-          <span class="viewer__current">01</span> / <span class="viewer__total"
-            >07</span
-          >
-        </p><p class="viewer__title"></p><button
-          class="viewer__close"
-          type="button"
-          aria-label="상세 보기 닫기">Close</button
-        >
-      </header>
-      <div class="viewer__stage">
-        <button class="viewer__prev" type="button" aria-label="이전 사진"
-          >Prev</button
-        ><figure><img alt="" /><figcaption></figcaption></figure><button
-          class="viewer__next"
-          type="button"
-          aria-label="다음 사진">Next</button
-        >
-      </div>
-    </dialog>
 
     <script>
       const revealItems = [
@@ -312,62 +268,6 @@ const photoMeta = (photo: Photo) =>
         );
         revealItems.forEach((item) => observer.observe(item));
       } else revealItems.forEach((item) => item.classList.add("is-visible"));
-
-      const viewer = document.querySelector<HTMLDialogElement>(".viewer");
-      const items = [
-        ...document.querySelectorAll<HTMLElement>("[data-viewer]"),
-      ];
-      if (viewer) {
-        const image = viewer.querySelector<HTMLImageElement>("figure img");
-        const caption = viewer.querySelector<HTMLElement>("figcaption");
-        const title = viewer.querySelector<HTMLElement>(".viewer__title");
-        const current = viewer.querySelector<HTMLElement>(".viewer__current");
-        const total = viewer.querySelector<HTMLElement>(".viewer__total");
-        let index = 0;
-        const render = (next: number) => {
-          index = (next + items.length) % items.length;
-          const item = items[index];
-          const source = item?.querySelector<HTMLImageElement>("img");
-          if (
-            !item ||
-            !source ||
-            !image ||
-            !caption ||
-            !title ||
-            !current ||
-            !total
-          )
-            return;
-          image.src = source.currentSrc || source.src;
-          image.alt = source.alt;
-          title.textContent = item.dataset.title ?? "";
-          caption.textContent = item.dataset.meta ?? "";
-          current.textContent = String(index + 1).padStart(2, "0");
-          total.textContent = String(items.length).padStart(2, "0");
-        };
-        items.forEach((item, itemIndex) =>
-          item.addEventListener("click", () => {
-            render(itemIndex);
-            viewer.showModal();
-          }),
-        );
-        viewer
-          .querySelector(".viewer__close")
-          ?.addEventListener("click", () => viewer.close());
-        viewer
-          .querySelector(".viewer__prev")
-          ?.addEventListener("click", () => render(index - 1));
-        viewer
-          .querySelector(".viewer__next")
-          ?.addEventListener("click", () => render(index + 1));
-        viewer.addEventListener("click", (event) => {
-          if (event.target === viewer) viewer.close();
-        });
-        viewer.addEventListener("keydown", (event) => {
-          if (event.key === "ArrowLeft") render(index - 1);
-          if (event.key === "ArrowRight") render(index + 1);
-        });
-      }
     </script>
   </body>
 </html>

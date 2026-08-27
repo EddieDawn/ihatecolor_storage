@@ -12,6 +12,8 @@ services:
       - "${ASTRO_PORT:-4321}:4321"
     environment:
       ASTRO_TELEMETRY_DISABLED: "1"
+      CHOKIDAR_USEPOLLING: "true"
+      CHOKIDAR_INTERVAL: "250"
     volumes:
       - .:/workspace
       - node_modules:/workspace/node_modules
