@@ -37,7 +37,6 @@ export const sanityLandingPageResponseSchema = z
   .strictObject({
     _id: z.literal("landingPage"),
     heroPhoto: sanityPhotoResponseSchema,
-    storyPhotos: z.array(sanityPhotoResponseSchema).length(6),
   })
   .nullable();
 

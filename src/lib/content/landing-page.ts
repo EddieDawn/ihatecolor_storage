@@ -9,9 +9,7 @@ export async function getLandingPagePhotos(): Promise<LandingPagePhotoSelection>
   const landingPage = adaptSanityLandingPage(validatedLandingPage);
 
   if (landingPage === null) {
-    throw new Error(
-      "Sanity landingPage is missing. Select one hero photo and six story photos in Studio.",
-    );
+    throw new Error("Sanity landingPage is missing. Select one hero photo in Studio.");
   }
 
   return landingPage;

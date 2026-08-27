@@ -43,6 +43,5 @@ Studio를 실행하거나 빌드하려면 먼저 실제 Sanity 프로젝트 ID�
 Studio의 `Landing page`는 하나만 존재하는 singleton 문서다.
 
 - `Hero photo`: 첫 화면에 표시할 사진 한 장
-- `Story photos`: 사진 에세이 01~06에 순서대로 표시할 사진 여섯 장
 
-랜딩의 제목, 소개 문구, 캡션과 레이아웃은 현재 Astro 코드에서 관리한다. CMS에서는 사진 선택과 순서만 관리한다.
+랜딩의 제목, 문구와 레이아웃은 현재 Astro 코드에서 관리한다. CMS에서는 Hero 사진만 선택한다.

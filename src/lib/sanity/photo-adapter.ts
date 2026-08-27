@@ -39,6 +39,5 @@ export function adaptSanityLandingPage(
 
   return {
     heroPhoto: adaptSanityPhoto(landingPage.heroPhoto),
-    storyPhotos: adaptSanityPhotos(landingPage.storyPhotos),
   };
 }

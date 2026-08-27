@@ -33,9 +33,6 @@ export const landingPageQuery = `
     _id,
     heroPhoto->{
       ${photoProjection}
-    },
-    storyPhotos[]->{
-      ${photoProjection}
     }
   }
 `;

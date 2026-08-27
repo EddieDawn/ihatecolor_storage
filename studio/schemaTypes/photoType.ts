@@ -2,6 +2,7 @@ import { defineField, defineType } from "sanity";
 
 const partialDatePattern =
   /^\d{4}(?:-(?:0[1-9]|1[0-2])(?:-(?:0[1-9]|[12]\d|3[01]))?)?$/;
+const slugPattern = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 
 export const photoType = defineType({
   name: "photo",
@@ -27,12 +28,20 @@ export const photoType = defineType({
       name: "slug",
       title: "Slug",
       type: "slug",
-      description: "공개 URL에서 사진을 식별하는 고유한 이름입니다.",
+      description:
+        "공개 URL에서 사진을 식별하는 고유한 이름입니다. 소문자, 숫자, 단일 하이픈(-)만 사용할 수 있습니다. 예: sham-cat",
       options: {
         source: "title",
         maxLength: 96,
       },
-      validation: (rule) => rule.required(),
+      validation: (rule) =>
+        rule.required().custom((value) => {
+          if (!value?.current) return true;
+
+          return slugPattern.test(value.current)
+            ? true
+            : "소문자, 숫자, 단일 하이픈(-)만 사용할 수 있습니다. 예: sham-cat";
+        }),
     }),
     defineField({
       name: "image",
