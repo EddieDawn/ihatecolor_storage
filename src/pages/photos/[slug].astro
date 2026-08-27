@@ -1,0 +1,52 @@
+---
+import type { Photo } from "../../lib/content/photo-model";
+import { getPhotos } from "../../lib/content/photos";
+
+interface Props {
+  photo: Photo;
+}
+
+export async function getStaticPaths() {
+  const photos = await getPhotos();
+
+  return photos.map((photo) => ({
+    params: { slug: photo.slug },
+    props: { photo },
+  }));
+}
+
+const { photo } = Astro.props;
+const photoMeta = [photo.location, photo.shotAt].filter(Boolean).join(" · ");
+---
+
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta
+      name="description"
+      content={`${photo.title}${photoMeta ? ` — ${photoMeta}` : ""}`}
+    />
+    <title>{photo.title} — FIELD</title>
+  </head>
+  <body>
+    <main>
+      <article>
+        <header>
+          <h1>{photo.title}</h1>
+          {photoMeta && <p>{photoMeta}</p>}
+        </header>
+
+        <img
+          src={photo.image.url}
+          width={photo.image.width}
+          height={photo.image.height}
+          alt={photo.altText}
+        />
+
+        <a href="/photos/">Back to journal</a>
+      </article>
+    </main>
+  </body>
+</html>
