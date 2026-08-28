@@ -145,12 +145,6 @@ const paginationHref = (page: number) => getPhotoPageHref(page);
       </section>
     </main>
 
-    <footer>
-      <a href="mailto:hello@example.com">hello@example.com</a>
-      <p>Available for editorial assignments</p>
-      <p>© Justyes, 2026</p>
-    </footer>
-
     <dialog class="coming-soon-dialog" aria-labelledby="coming-soon-title">
       <div class="coming-soon-content">
         <p class="coming-soon-label">Coming soon</p>
@@ -271,14 +265,12 @@ const paginationHref = (page: number) => getPhotoPageHref(page);
 
   .header-side a,
   .header-side button,
-  footer a,
   .pagination a {
     position: relative;
   }
 
   .header-side a::after,
   .header-side button::after,
-  footer a::after,
   .pagination a::after {
     position: absolute;
     right: 0;
@@ -296,8 +288,6 @@ const paginationHref = (page: number) => getPhotoPageHref(page);
   .header-side a:focus-visible::after,
   .header-side button:hover::after,
   .header-side button:focus-visible::after,
-  footer a:hover::after,
-  footer a:focus-visible::after,
   .pagination a:hover::after,
   .pagination a:focus-visible::after {
     transform: scaleX(1);
@@ -459,31 +449,6 @@ const paginationHref = (page: number) => getPhotoPageHref(page);
     justify-self: end;
   }
 
-  footer {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    align-items: end;
-    min-height: 260px;
-    padding: 90px var(--side) 46px;
-    background: var(--ink);
-    color: var(--paper);
-    font-size: 10px;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-  }
-
-  footer p {
-    margin: 0;
-  }
-
-  footer p:nth-child(2) {
-    text-align: center;
-  }
-
-  footer p:last-child {
-    text-align: right;
-  }
-
   .coming-soon-dialog {
     width: min(460px, calc(100vw - 36px));
     padding: 0;
@@ -593,26 +558,6 @@ const paginationHref = (page: number) => getPhotoPageHref(page);
 
     .pagination ol {
       gap: 22px;
-    }
-
-    footer {
-      display: flex;
-      min-height: 320px;
-      flex-direction: column;
-      align-items: flex-start;
-      justify-content: flex-end;
-      gap: 15px;
-      padding-top: 80px;
-      padding-bottom: 28px;
-    }
-
-    footer p:nth-child(2),
-    footer p:last-child {
-      text-align: left;
-    }
-
-    footer p:last-child {
-      margin-top: 40px;
     }
   }
 
