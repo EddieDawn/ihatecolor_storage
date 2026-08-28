@@ -94,8 +94,9 @@ img {
   text-transform: uppercase;
 }
 .hero__rail-link {
-  display: inline-flex;
-  width: fit-content;
+  display: inline-grid;
+  width: 96px;
+  grid-template-columns: 1fr 24px;
   align-items: center;
   gap: 12px;
 }

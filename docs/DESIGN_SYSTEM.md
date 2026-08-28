@@ -1,6 +1,6 @@
 # Wedding Snap Portfolio Design System
 
-> 상태: **Approved / Canonical v1.17**
+> 상태: **Approved / Canonical v1.18**
 > 승인일: 2026-08-14  
 > 현재 검증 대상: 데스크톱 1440×900  
 > 모바일 디자인: 사진 목록만 승인, 랜딩·상세는 미정
@@ -182,6 +182,7 @@ font-family:
   `minmax(150px, 0.7fr) minmax(500px, 2.25fr) minmax(340px, 1.05fr)`
 - Hero 왼쪽 레일은 상단에 `Journal`, 하단에 `Contact`, `Instagram`을 배치한다.
 - `Journal` 화살표 아이콘은 `24px × 10px`, 텍스트와의 간격은 `12px`를 사용한다.
+- `Journal`, `Contact`, `Instagram`은 동일한 `96px` 너비의 텍스트·아이콘 2열 구조를 사용해 화살표의 세로축을 맞춘다.
 - 하단 링크 사이 간격은 `18px`를 사용한다.
 ### 5.2 사진 목록 페이지
 
@@ -383,4 +384,5 @@ transition: filter 380ms ease;
 | 1.15 | 2026-08-28 | 사진 목록 페이지의 푸터를 데스크톱과 모바일에서 모두 제거 | 사용자 승인 |
 | 1.16 | 2026-08-28 | 랜딩 Hero의 Wedding Archive 메타데이터와 오른쪽 제목·설명·작가 정보·키커·하단 구분선을 제거 | 사용자 승인 |
 | 1.17 | 2026-08-28 | 사진 목록의 Journal·페이지·항목 수를 표시하던 저널 도구 모음을 데스크톱과 모바일에서 제거 | 사용자 승인 |
+| 1.18 | 2026-08-28 | 랜딩 왼쪽 레일의 Journal·Contact·Instagram 화살표를 동일한 세로축에 정렬 | 사용자 승인 |
 
