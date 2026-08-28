@@ -51,7 +51,8 @@ img {
   height: 92px;
   padding: 0 var(--side);
   color: var(--paper);
-  font-size: 9px;
+  font-size: 11px;
+  font-weight: 600;
   letter-spacing: 0.075em;
   text-transform: uppercase;
   mix-blend-mode: difference;
@@ -88,14 +89,15 @@ img {
   justify-content: space-between;
   padding: 142px 34px 42px var(--side);
   border-right: 1px solid rgba(242, 240, 235, 0.22);
-  font-size: 9px;
+  font-size: 11px;
+  font-weight: 600;
   letter-spacing: 0.1em;
   line-height: 1.75;
   text-transform: uppercase;
 }
 .hero__rail-link {
   display: inline-grid;
-  width: 96px;
+  width: 112px;
   grid-template-columns: 1fr 24px;
   align-items: center;
   gap: 12px;
@@ -156,7 +158,8 @@ img {
   bottom: 15px;
   margin: 0;
   color: rgba(255, 255, 255, 0.72);
-  font-size: 9px;
+  font-size: 11px;
+  font-weight: 500;
   letter-spacing: 0.09em;
   text-transform: uppercase;
 }
