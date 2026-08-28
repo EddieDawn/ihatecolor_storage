@@ -93,9 +93,6 @@ img {
   line-height: 1.75;
   text-transform: uppercase;
 }
-.hero__rail p {
-  margin: 0;
-}
 .hero__rail-link {
   display: inline-flex;
   width: fit-content;
@@ -117,13 +114,9 @@ img {
 .hero__rail-link:focus-visible svg {
   transform: translateX(4px);
 }
-.hero__rail-bottom,
 .hero__rail-links {
   display: flex;
   flex-direction: column;
-}
-.hero__rail-bottom {
-  gap: 44px;
 }
 .hero__rail-links {
   align-items: flex-start;
@@ -166,47 +159,6 @@ img {
   letter-spacing: 0.09em;
   text-transform: uppercase;
 }
-.hero__copy {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  padding: 142px var(--side) 42px 40px;
-}
-.kicker {
-  margin: 0 0 auto;
-  font-size: 9px;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-}
-.hero h1 {
-  margin: 0 0 76px -6px;
-  font-size: clamp(64px, 6.3vw, 108px);
-  font-weight: 400;
-  letter-spacing: -0.06em;
-  line-height: 0.87;
-}
-.hero h1 span {
-  display: block;
-  white-space: nowrap;
-}
-.hero__caption {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 24px;
-  padding-top: 16px;
-  border-top: 1px solid rgba(242, 240, 235, 0.42);
-  font-size: 9px;
-  letter-spacing: 0.04em;
-  line-height: 1.7;
-  text-transform: uppercase;
-}
-.hero__caption p {
-  margin: 0;
-}
-.hero__caption p:last-child {
-  text-align: right;
-}
-
 @keyframes hero-reveal {
   from {
     clip-path: inset(100% 0 0);

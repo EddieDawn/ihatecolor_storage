@@ -26,7 +26,7 @@ const { heroPhoto: hero } = await getLandingPagePhotos();
     </header>
 
     <main>
-      <section class="hero" aria-labelledby="hero-title">
+      <section class="hero" aria-label="대표 사진">
         <div class="hero__rail">
           <a class="hero__rail-link" href="/photos/">
             <span>Journal</span>
@@ -34,25 +34,22 @@ const { heroPhoto: hero } = await getLandingPagePhotos();
               <path d="M0 5h22M17 1l5 4-5 4"></path>
             </svg>
           </a>
-          <div class="hero__rail-bottom">
-            <div class="hero__rail-links">
-              <span class="hero__rail-link">
-                <span>Contact</span>
-                <svg viewBox="0 0 24 10" aria-hidden="true">
-                  <path d="M0 5h22M17 1l5 4-5 4"></path>
-                </svg>
-              </span>
-              <a
-                class="hero__rail-link"
-                href="https://www.instagram.com/justyesgallery?igsi=MWJqaXJ5MWVqa2QyZg=="
-              >
-                <span>Instagram</span>
-                <svg viewBox="0 0 24 10" aria-hidden="true">
-                  <path d="M0 5h22M17 1l5 4-5 4"></path>
-                </svg>
-              </a>
-            </div>
-            <p>Wedding<br />Archive 2024—26</p>
+          <div class="hero__rail-links">
+            <span class="hero__rail-link">
+              <span>Contact</span>
+              <svg viewBox="0 0 24 10" aria-hidden="true">
+                <path d="M0 5h22M17 1l5 4-5 4"></path>
+              </svg>
+            </span>
+            <a
+              class="hero__rail-link"
+              href="https://www.instagram.com/justyesgallery?igsi=MWJqaXJ5MWVqa2QyZg=="
+            >
+              <span>Instagram</span>
+              <svg viewBox="0 0 24 10" aria-hidden="true">
+                <path d="M0 5h22M17 1l5 4-5 4"></path>
+              </svg>
+            </a>
           </div>
         </div>
 
@@ -76,15 +73,6 @@ const { heroPhoto: hero } = await getLandingPagePhotos();
             />
           </a>
           <p class="hero__image-index">No. 001</p>
-        </div>
-
-        <div class="hero__copy">
-          <p class="kicker">A quiet wedding archive</p>
-          <h1 id="hero-title"><span>I do.</span><span>Still.</span></h1>
-          <div class="hero__caption">
-            <p>포즈와 포즈 사이,<br />두 사람만 아는 표정과 온도.</p>
-            <p>Justyes gallery<br />Seoul, 2026</p>
-          </div>
         </div>
       </section>
     </main>

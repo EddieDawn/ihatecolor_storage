@@ -1,6 +1,6 @@
 # Wedding Snap Portfolio Design System
 
-> 상태: **Approved / Canonical v1.15**
+> 상태: **Approved / Canonical v1.16**
 > 승인일: 2026-08-14  
 > 현재 검증 대상: 데스크톱 1440×900  
 > 모바일 디자인: 사진 목록만 승인, 랜딩·상세는 미정
@@ -30,7 +30,8 @@
 - 사진 목록 이동 링크는 상단 헤더가 아니라 Hero 왼쪽의 검정 레일에 `Journal`로 표시한다.
 - `Journal` 오른쪽에는 텍스트 화살표가 아닌 가는 선의 오른쪽 방향 SVG 아이콘을 배치한다.
 - 헤더 우측의 위치·연도 메타데이터와 Hero 왼쪽 하단의 좌표는 표시하지 않는다.
-- Hero 왼쪽 레일 하단에는 `Contact`, `Instagram`과 `Wedding Archive 2024—26` 메타데이터를 배치한다.
+- Hero 왼쪽 레일 하단에는 `Contact`, `Instagram`을 배치한다.
+- Hero 오른쪽 열에는 제목, 설명, 작가·지역·연도, 키커 문구와 하단 구분선을 표시하지 않는다.
 - `Contact`는 목적지가 정해질 때까지 링크 없이 표시하고, `Instagram`은 Justyes Gallery 공식 계정으로 이동한다.
 - `Contact`와 `Instagram`은 `Journal`과 동일한 가는 선의 오른쪽 방향 SVG 아이콘을 사용한다.
 - URL fragment(`#...`)를 사용하는 화면 내부 이동 링크는 제공하지 않는다.
@@ -144,7 +145,6 @@ font-family:
 |---|---|---|---|---|
 | 워드마크 | `23px` | `1` | `0.21em` | `500` |
 | 헤더 메뉴·메타 | `9px` | 기본 | `0.075em` | `400` |
-| Hero 제목 | `clamp(64px, 6.3vw, 108px)` | `0.87` | `-0.06em` | `400` |
 
 ### 4.4 사진 목록 글자 규칙
 
@@ -180,9 +180,9 @@ font-family:
 - Hero 높이: `100vh`, 최소 `760px`
 - Hero 열:
   `minmax(150px, 0.7fr) minmax(500px, 2.25fr) minmax(340px, 1.05fr)`
-- Hero 왼쪽 레일은 상단에 `Journal`, 하단에 `Contact`, `Instagram`, `Wedding Archive 2024—26`을 배치한다.
+- Hero 왼쪽 레일은 상단에 `Journal`, 하단에 `Contact`, `Instagram`을 배치한다.
 - `Journal` 화살표 아이콘은 `24px × 10px`, 텍스트와의 간격은 `12px`를 사용한다.
-- 하단 링크 사이 간격은 `18px`, 링크 그룹과 Wedding Archive 사이 간격은 `44px`를 사용한다.
+- 하단 링크 사이 간격은 `18px`를 사용한다.
 ### 5.2 사진 목록 페이지
 
 ```css
@@ -346,7 +346,6 @@ transition: filter 380ms ease;
 
 - [ ] 어두운 Hero와 따뜻한 종이색 본문을 유지했는가?
 - [ ] Hero가 데스크톱 화면 높이를 채우는가?
-- [ ] 큰 제목의 크기, 좁은 자간, 얇은 두께가 유지되는가?
 - [ ] Hero 진입 모션이 승인된 속도와 easing을 사용하는가?
 
 ### 사진 목록
@@ -384,4 +383,5 @@ transition: filter 380ms ease;
 | 1.13 | 2026-08-27 | 랜딩 우측 상단 메타데이터와 좌측 하단 좌표를 제거하고 Wedding Archive 정보를 좌측 하단으로 이동 | 사용자 승인 |
 | 1.14 | 2026-08-27 | Hero 왼쪽 레일 하단에 Contact와 Instagram을 Journal과 같은 SVG 화살표 형식으로 추가 | 사용자 승인 |
 | 1.15 | 2026-08-28 | 사진 목록 페이지의 푸터를 데스크톱과 모바일에서 모두 제거 | 사용자 승인 |
+| 1.16 | 2026-08-28 | 랜딩 Hero의 Wedding Archive 메타데이터와 오른쪽 제목·설명·작가 정보·키커·하단 구분선을 제거 | 사용자 승인 |
 
