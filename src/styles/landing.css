@@ -152,17 +152,6 @@ img {
   object-position: center 58%;
   animation: hero-image 7s cubic-bezier(0.2, 0.65, 0.2, 1) both;
 }
-.hero__image-index {
-  position: absolute;
-  right: 16px;
-  bottom: 15px;
-  margin: 0;
-  color: rgba(255, 255, 255, 0.72);
-  font-size: 11px;
-  font-weight: 500;
-  letter-spacing: 0.09em;
-  text-transform: uppercase;
-}
 @keyframes hero-reveal {
   from {
     clip-path: inset(100% 0 0);

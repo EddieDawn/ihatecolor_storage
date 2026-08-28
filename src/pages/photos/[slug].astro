@@ -45,7 +45,6 @@ const photoMeta = [photo.location, formattedShotAt].filter(Boolean).join(" · ")
   </head>
   <body class="photo-detail-page">
     <header class="detail-header">
-      <p>Photo detail</p>
       <h1>{photo.title}</h1>
       <a class="detail-back-link" href={returnHref}>Back to journal</a>
     </header>
@@ -58,7 +57,7 @@ const photoMeta = [photo.location, formattedShotAt].filter(Boolean).join(" · ")
           height={photo.image.height}
           alt={photo.altText}
         />
-        <figcaption>{photoMeta || "—"}</figcaption>
+        {photoMeta && <figcaption>{photoMeta}</figcaption>}
       </figure>
     </main>
 
@@ -97,10 +96,10 @@ const photoMeta = [photo.location, formattedShotAt].filter(Boolean).join(" · ")
 
 <style is:global>
   :root {
-    --ink: #11110f;
-    --paper: #f2f0eb;
-    --line: rgba(17, 17, 15, 0.22);
-    --muted: #73716b;
+    --ink: #f2f0eb;
+    --paper: #11110f;
+    --line: rgba(242, 240, 235, 0.28);
+    --muted: rgba(242, 240, 235, 0.66);
     --side: clamp(58px, 5.2vw, 92px);
     --sans:
       "Helvetica Neue", Helvetica, Arial, "Pretendard", "Apple SD Gothic Neo",
@@ -155,8 +154,8 @@ const photoMeta = [photo.location, formattedShotAt].filter(Boolean).join(" · ")
     text-transform: uppercase;
   }
 
-  .detail-header p,
   .detail-header h1 {
+    grid-column: 2;
     margin: 0;
     font-size: inherit;
     font-weight: 500;
@@ -171,6 +170,7 @@ const photoMeta = [photo.location, formattedShotAt].filter(Boolean).join(" · ")
 
   .detail-header a {
     position: relative;
+    grid-column: 3;
     justify-self: end;
     padding: 8px 0;
     font-weight: 600;
@@ -217,6 +217,8 @@ const photoMeta = [photo.location, formattedShotAt].filter(Boolean).join(" · ")
   .detail-stage img {
     width: auto;
     height: auto;
+    align-self: center;
+    justify-self: center;
     max-height: 100%;
     max-width: 100%;
     object-fit: contain;
