@@ -8,10 +8,9 @@ interface Props {
   photos: Photo[];
   currentPage: number;
   totalPages: number;
-  totalItems: number;
 }
 
-const { photos, currentPage, totalPages, totalItems } = Astro.props;
+const { photos, currentPage, totalPages } = Astro.props;
 
 const photoMeta = (photo: Photo) =>
   [photo.location, photo.shotAt?.slice(0, 4)].filter(Boolean).join(" · ");
@@ -57,17 +56,7 @@ const paginationHref = (page: number) => getPhotoPageHref(page);
     </header>
 
     <main>
-      <section class="journal" aria-labelledby="journal-title">
-        <div class="journal-toolbar">
-          <h1 id="journal-title">Journal</h1>
-          <p class="journal-page">
-            Page {String(currentPage).padStart(2, "0")}
-          </p>
-          <p class="journal-count">
-            {String(totalItems).padStart(2, "0")} stories
-          </p>
-        </div>
-
+      <section class="journal" aria-label="사진 저널">
         {
           photos.length > 0 ? (
             <div class="journal-grid">
@@ -315,41 +304,8 @@ const paginationHref = (page: number) => getPhotoPageHref(page);
     line-height: 1;
   }
 
-  .journal-count,
-  .journal-page {
-    margin: 0;
-    color: var(--muted);
-    font-size: 10px;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-  }
-
   .journal {
     padding: 0 var(--side) 160px;
-  }
-
-  .journal-toolbar {
-    display: grid;
-    grid-template-columns: 1fr auto 1fr;
-    align-items: center;
-    height: 112px;
-  }
-
-  .journal-toolbar h1 {
-    justify-self: start;
-    margin: 0;
-    font-size: 11px;
-    font-weight: 500;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-  }
-
-  .journal-page {
-    justify-self: center;
-  }
-
-  .journal-count {
-    justify-self: end;
   }
 
   .journal-grid {
@@ -536,10 +492,6 @@ const paginationHref = (page: number) => getPhotoPageHref(page);
 
     .journal {
       padding-bottom: 92px;
-    }
-
-    .journal-toolbar {
-      height: 86px;
     }
 
     .journal-grid {
