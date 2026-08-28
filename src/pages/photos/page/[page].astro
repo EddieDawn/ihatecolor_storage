@@ -10,7 +10,6 @@ interface Props {
   photos: Photo[];
   currentPage: number;
   totalPages: number;
-  totalItems: number;
 }
 
 export async function getStaticPaths() {
@@ -26,18 +25,16 @@ export async function getStaticPaths() {
         photos: getPhotoPageItems(photos, currentPage),
         currentPage,
         totalPages,
-        totalItems: photos.length,
       },
     };
   });
 }
 
-const { photos, currentPage, totalPages, totalItems } = Astro.props;
+const { photos, currentPage, totalPages } = Astro.props;
 ---
 
 <PhotoJournalView
   photos={photos}
   currentPage={currentPage}
   totalPages={totalPages}
-  totalItems={totalItems}
 />
