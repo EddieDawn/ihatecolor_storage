@@ -21,16 +21,16 @@
 
 ## 주요 기능
 
-| 영역 | 구현 내용 |
-| --- | --- |
-| 랜딩 `/` | CMS에서 선택한 대표 사진, Journal·Instagram 링크, Contact 문구 |
-| 사진 목록 `/photos/` | 데스크톱 3열, 페이지당 9장, 숫자 및 이전·다음 페이지네이션 |
-| 추가 목록 `/photos/page/{page}/` | 사진 수에 맞춰 빌드 시 생성하는 목록 페이지 |
-| 사진 상세 `/photos/{slug}/` | 원본 비율을 유지한 사진 감상, 작품명과 선택 메타데이터, 랜딩 또는 목록 복귀 |
-| 콘텐츠 관리 | 사진 업로드, 제목·대체 텍스트·slug·정렬 순서 및 선택 메타데이터 편집 |
-| 대표 사진 관리 | 하나의 `Landing page` 문서에서 Hero 사진 선택 |
-| 이미지 처리 | 랜딩·목록에서 Astro Image와 Sharp로 반응형 WebP 생성; 상세에서는 Sanity 이미지 URL 사용 |
-| 접근성 고려 | 이미지 대체 텍스트, 키보드 포커스, 모션 감소 설정 대응 |
+| 영역                             | 구현 내용                                                                               |
+| -------------------------------- | --------------------------------------------------------------------------------------- |
+| 랜딩 `/`                         | CMS에서 선택한 대표 사진, Journal·Instagram 링크, Contact 문구                          |
+| 사진 목록 `/photos/`             | 데스크톱 3열, 페이지당 9장, 숫자 및 이전·다음 페이지네이션                              |
+| 추가 목록 `/photos/page/{page}/` | 사진 수에 맞춰 빌드 시 생성하는 목록 페이지                                             |
+| 사진 상세 `/photos/{slug}/`      | 원본 비율을 유지한 사진 감상, 작품명과 선택 메타데이터, 랜딩 또는 목록 복귀             |
+| 콘텐츠 관리                      | 사진 업로드, 제목·대체 텍스트·slug·정렬 순서 및 선택 메타데이터 편집                    |
+| 대표 사진 관리                   | 하나의 `Landing page` 문서에서 Hero 사진 선택                                           |
+| 이미지 처리                      | 랜딩·목록에서 Astro Image와 Sharp로 반응형 WebP 생성; 상세에서는 Sanity 이미지 URL 사용 |
+| 접근성 고려                      | 이미지 대체 텍스트, 키보드 포커스, 모션 감소 설정 대응                                  |
 
 공개 웹사이트는 정적 생성 방식입니다. CMS에서 게시한 변경 사항을 운영 사이트에 반영하려면 사이트를 다시 빌드하고 배포해야 합니다. 현재 Contact는 문구만 표시하며 링크와 문의 전송 기능은 구현되어 있지 않습니다.
 
@@ -38,19 +38,19 @@
 
 아래 버전은 저장소의 `package.json`에 고정된 버전입니다. 웹사이트와 Studio는 각각의 의존성과 lockfile을 사용합니다.
 
-| 영역 | 기술 | 선택 이유 및 역할 |
-| --- | --- | --- |
-| 공개 웹사이트 | Astro 7.2.2 | 콘텐츠를 빌드 시 HTML로 생성하고 필요한 상호작용에만 브라우저 스크립트 사용 |
-| 언어 | TypeScript 6.0.3, strict mode | 페이지·콘텐츠 계층이 공유하는 모델과 타입 경계 정의 |
-| 스타일 | CSS, Astro scoped/global style | 디자인 문서의 토큰과 화면별 규칙을 직접 구현 |
-| CMS | Sanity Studio 6.10.1, React 19.2.8 | 사진작가가 사용할 콘텐츠 편집·게시 화면 제공; React는 Studio에서 사용 |
-| 데이터 조회 | `@sanity/client` 8.2.0, GROQ | 게시된 사진과 랜딩 대표 사진 조회 |
-| 응답 검증 | Zod 4.4.3 | 외부 CMS 응답을 실행 시점에 검증 |
-| 이미지 최적화 | Astro Image, Sharp 0.35.3 | 랜딩·목록 이미지의 크기별 정적 변환 |
-| 실행 환경 | Node.js 24.19.0, pnpm 11.22.0 | 버전과 lockfile을 고정해 개발환경 차이 축소 |
-| 개발환경 | Docker Compose, VS Code Dev Containers | 웹사이트와 Studio를 독립 서비스로 실행 |
-| 코드 품질 | ESLint 10.8.1, Prettier 3.9.6, Astro Check | 정적 분석·포맷·타입 검사 |
-| CI | GitHub Actions | PR과 `main` push에서 웹사이트 검증 및 정적 빌드 |
+| 영역          | 기술                                       | 선택 이유 및 역할                                                           |
+| ------------- | ------------------------------------------ | --------------------------------------------------------------------------- |
+| 공개 웹사이트 | Astro 7.2.2                                | 콘텐츠를 빌드 시 HTML로 생성하고 필요한 상호작용에만 브라우저 스크립트 사용 |
+| 언어          | TypeScript 6.0.3, strict mode              | 페이지·콘텐츠 계층이 공유하는 모델과 타입 경계 정의                         |
+| 스타일        | CSS, Astro scoped/global style             | 디자인 문서의 토큰과 화면별 규칙을 직접 구현                                |
+| CMS           | Sanity Studio 6.10.1, React 19.2.8         | 사진작가가 사용할 콘텐츠 편집·게시 화면 제공; React는 Studio에서 사용       |
+| 데이터 조회   | `@sanity/client` 8.2.0, GROQ               | 게시된 사진과 랜딩 대표 사진 조회                                           |
+| 응답 검증     | Zod 4.4.3                                  | 외부 CMS 응답을 실행 시점에 검증                                            |
+| 이미지 최적화 | Astro Image, Sharp 0.35.3                  | 랜딩·목록 이미지의 크기별 정적 변환                                         |
+| 실행 환경     | Node.js 24.19.0, pnpm 11.22.0              | 버전과 lockfile을 고정해 개발환경 차이 축소                                 |
+| 개발환경      | Docker Compose, VS Code Dev Containers     | 웹사이트와 Studio를 독립 서비스로 실행                                      |
+| 코드 품질     | ESLint 10.8.1, Prettier 3.9.6, Astro Check | 정적 분석·포맷·타입 검사                                                    |
+| CI            | GitHub Actions                             | PR과 `main` push에서 웹사이트 검증 및 정적 빌드                             |
 
 ## 아키텍처와 데이터 흐름
 
@@ -122,34 +122,34 @@
 
 ### 핵심 데이터 파일
 
-| 파일 | 책임 |
-| --- | --- |
-| [`photo-model.ts`](src/lib/content/photo-model.ts) | 공통 `Photo`, `PhotoImage` 타입 정의 |
-| [`photos.ts`](src/lib/content/photos.ts) | 사진 조회 흐름 연결, ID·slug 중복 검사, 정렬 |
-| [`photo-pagination.ts`](src/lib/content/photo-pagination.ts) | 페이지당 9장 기준, 페이지 수·항목·URL 계산 |
-| [`landing-page-model.ts`](src/lib/content/landing-page-model.ts) | 랜딩 대표 사진 데이터 계약 |
-| [`landing-page.ts`](src/lib/content/landing-page.ts) | 대표 사진 조회·검증·변환, 미설정 오류 처리 |
-| [`environment.ts`](src/lib/sanity/environment.ts) | 웹사이트의 Sanity 필수 환경변수 검사 |
-| [`client.ts`](src/lib/sanity/client.ts) | 읽기 토큰과 게시 콘텐츠 조회 설정으로 클라이언트 생성 |
-| [`queries.ts`](src/lib/sanity/queries.ts) | 사진 및 랜딩 조회용 GROQ와 반환 필드 정의 |
-| [`fetch.ts`](src/lib/sanity/fetch.ts) | 쿼리 실행, 아직 검증하지 않은 `unknown` 응답 반환 |
-| [`response-schemas.ts`](src/lib/sanity/response-schemas.ts) | 필수 문자열·slug·이미지 크기 등 외부 응답 검증 |
-| [`photo-adapter.ts`](src/lib/sanity/photo-adapter.ts) | 검증된 CMS 응답을 화면용 모델로 변환 |
+| 파일                                                             | 책임                                                  |
+| ---------------------------------------------------------------- | ----------------------------------------------------- |
+| [`photo-model.ts`](src/lib/content/photo-model.ts)               | 공통 `Photo`, `PhotoImage` 타입 정의                  |
+| [`photos.ts`](src/lib/content/photos.ts)                         | 사진 조회 흐름 연결, ID·slug 중복 검사, 정렬          |
+| [`photo-pagination.ts`](src/lib/content/photo-pagination.ts)     | 페이지당 9장 기준, 페이지 수·항목·URL 계산            |
+| [`landing-page-model.ts`](src/lib/content/landing-page-model.ts) | 랜딩 대표 사진 데이터 계약                            |
+| [`landing-page.ts`](src/lib/content/landing-page.ts)             | 대표 사진 조회·검증·변환, 미설정 오류 처리            |
+| [`environment.ts`](src/lib/sanity/environment.ts)                | 웹사이트의 Sanity 필수 환경변수 검사                  |
+| [`client.ts`](src/lib/sanity/client.ts)                          | 읽기 토큰과 게시 콘텐츠 조회 설정으로 클라이언트 생성 |
+| [`queries.ts`](src/lib/sanity/queries.ts)                        | 사진 및 랜딩 조회용 GROQ와 반환 필드 정의             |
+| [`fetch.ts`](src/lib/sanity/fetch.ts)                            | 쿼리 실행, 아직 검증하지 않은 `unknown` 응답 반환     |
+| [`response-schemas.ts`](src/lib/sanity/response-schemas.ts)      | 필수 문자열·slug·이미지 크기 등 외부 응답 검증        |
+| [`photo-adapter.ts`](src/lib/sanity/photo-adapter.ts)            | 검증된 CMS 응답을 화면용 모델로 변환                  |
 
 ## Markdown 문서 안내
 
 문서는 **프로젝트 소개 → 작업 기준 → 분야별 상세 설명 → 과거 기록**으로 역할을 나눕니다. Markdown은 개발 지식과 결정 사항을 관리하며, 현재 운영 사진의 콘텐츠 소스는 Sanity입니다.
 
-| 문서 | 담당 내용과 읽는 시점 |
-| --- | --- |
-| [`README.md`](README.md) | 처음 방문한 사람이 서비스·구조·실행 방법을 이해하는 안내서 |
-| [`AGENTS.md`](AGENTS.md) | AI 작업 전 확인할 규칙, 디자인 변경 승인 절차, 리뷰 응답 방식 |
-| [`docs/DESIGN_SYSTEM.md`](docs/DESIGN_SYSTEM.md) | 시각 디자인의 단일 기준. 색상·타이포그래피·여백·이미지·모션·검수 기준과 승인 이력 |
-| [`docs/TECH_STACK.md`](docs/TECH_STACK.md) | 기술 선택 배경, 콘텐츠 모델, 데이터 경계, CMS·보안·개발환경 원칙 |
-| [`docs/DEVELOPMENT.md`](docs/DEVELOPMENT.md) | Docker 실행·종료·로그·검증, 환경변수와 CI 설정 |
+| 문서                                                                               | 담당 내용과 읽는 시점                                                             |
+| ---------------------------------------------------------------------------------- | --------------------------------------------------------------------------------- |
+| [`README.md`](README.md)                                                           | 처음 방문한 사람이 서비스·구조·실행 방법을 이해하는 안내서                        |
+| [`AGENTS.md`](AGENTS.md)                                                           | AI 작업 전 확인할 규칙, 디자인 변경 승인 절차, 리뷰 응답 방식                     |
+| [`docs/DESIGN_SYSTEM.md`](docs/DESIGN_SYSTEM.md)                                   | 시각 디자인의 단일 기준. 색상·타이포그래피·여백·이미지·모션·검수 기준과 승인 이력 |
+| [`docs/TECH_STACK.md`](docs/TECH_STACK.md)                                         | 기술 선택 배경, 콘텐츠 모델, 데이터 경계, CMS·보안·개발환경 원칙                  |
+| [`docs/DEVELOPMENT.md`](docs/DEVELOPMENT.md)                                       | Docker 실행·종료·로그·검증, 환경변수와 CI 설정                                    |
 | [`docs/NESTJS_ARCHITECTURE_COMPARISON.md`](docs/NESTJS_ARCHITECTURE_COMPARISON.md) | NestJS 경험자를 위한 계층별 대응 설명. CMS 전환 중 작성된 시점의 구현 상태도 포함 |
-| [`studio/README.md`](studio/README.md) | 관리자 앱의 환경변수, 실행·빌드 방법, Hero 관리 범위 |
-| [`archive/Day1.md`](archive/Day1.md)–[`Day8.md`](archive/Day8.md) | 요구사항·구현·리뷰·문제 해결과 클라이언트 피드백의 일자별 기록 |
+| [`studio/README.md`](studio/README.md)                                             | 관리자 앱의 환경변수, 실행·빌드 방법, Hero 관리 범위                              |
+| [`archive/Day1.md`](archive/Day1.md)–[`Day8.md`](archive/Day8.md)                  | 요구사항·구현·리뷰·문제 해결과 클라이언트 피드백의 일자별 기록                    |
 
 과거 기록에는 현재 제거된 로컬 Content Collection, HTML 프로토타입 및 이전 UI가 등장합니다. 기술 문서 일부에도 전환 당시 설명이 남아 있으므로, 현재 구현과 버전은 소스 코드 및 각 `package.json`을 함께 확인합니다. 시각 디자인의 기준은 `docs/DESIGN_SYSTEM.md`입니다.
 
@@ -159,14 +159,14 @@
 
 ### 가드레일: 변경 가능한 범위를 명시
 
-| 경계 | 적용 방식 | 근거 |
-| --- | --- | --- |
-| 디자인 | UI 작업 전에 디자인 시스템 전체를 읽고 기존 토큰과 규칙 적용 | `AGENTS.md`, `docs/DESIGN_SYSTEM.md` |
-| 승인 | 디자인 기준과 다른 처리가 필요하면 화면 예외인지 전체 변경인지 확인하고 답변 대기 | `AGENTS.md` |
-| 변경 순서 | 승인된 디자인 변경은 문서에 먼저 기록한 뒤 코드에 적용 | `AGENTS.md` |
-| 리뷰 | `Codex Review:` 요청은 실제 코드로 타당성을 검증하고 해결 계획까지만 제시; 코드 수정은 명시적 허가 후 진행 | `AGENTS.md` |
-| 데이터 | 외부 응답을 바로 신뢰하지 않고 스키마 검증·모델 변환·중복 검사 수행 | `src/lib/sanity/`, `src/lib/content/photos.ts` |
-| 품질 | 정적 분석·포맷·타입·빌드를 검사하고, 디자인은 1440×900 기준으로 시각 검수 | CI, `AGENTS.md` |
+| 경계      | 적용 방식                                                                                                  | 근거                                           |
+| --------- | ---------------------------------------------------------------------------------------------------------- | ---------------------------------------------- |
+| 디자인    | UI 작업 전에 디자인 시스템 전체를 읽고 기존 토큰과 규칙 적용                                               | `AGENTS.md`, `docs/DESIGN_SYSTEM.md`           |
+| 승인      | 디자인 기준과 다른 처리가 필요하면 화면 예외인지 전체 변경인지 확인하고 답변 대기                          | `AGENTS.md`                                    |
+| 변경 순서 | 승인된 디자인 변경은 문서에 먼저 기록한 뒤 코드에 적용                                                     | `AGENTS.md`                                    |
+| 리뷰      | `Codex Review:` 요청은 실제 코드로 타당성을 검증하고 해결 계획까지만 제시; 코드 수정은 명시적 허가 후 진행 | `AGENTS.md`                                    |
+| 데이터    | 외부 응답을 바로 신뢰하지 않고 스키마 검증·모델 변환·중복 검사 수행                                        | `src/lib/sanity/`, `src/lib/content/photos.ts` |
+| 품질      | 정적 분석·포맷·타입·빌드를 검사하고, 디자인은 1440×900 기준으로 시각 검수                                  | CI, `AGENTS.md`                                |
 
 문서 규칙은 AI의 작업 절차를 통제하고, 스키마와 CI는 코드 수준에서 오류를 드러냅니다. 디자인 승인과 시각적 적합성 판단은 사람의 검토가 필요한 영역입니다.
 
@@ -210,13 +210,13 @@ cp studio/.env.example studio/.env.local
 
 예시 값을 실제 프로젝트 설정으로 교체합니다.
 
-| 파일 | 변수 | 용도 |
-| --- | --- | --- |
-| `.env.local` | `SANITY_PROJECT_ID` | 웹사이트에서 조회할 Sanity 프로젝트 |
-| `.env.local` | `SANITY_DATASET` | 조회할 dataset |
-| `.env.local` | `SANITY_API_READ_TOKEN` | 비공개 dataset의 읽기 전용 Viewer 토큰 |
-| `studio/.env.local` | `SANITY_STUDIO_PROJECT_ID` | Studio에서 편집할 프로젝트 |
-| `studio/.env.local` | `SANITY_STUDIO_DATASET` | Studio에서 편집할 dataset |
+| 파일                | 변수                       | 용도                                   |
+| ------------------- | -------------------------- | -------------------------------------- |
+| `.env.local`        | `SANITY_PROJECT_ID`        | 웹사이트에서 조회할 Sanity 프로젝트    |
+| `.env.local`        | `SANITY_DATASET`           | 조회할 dataset                         |
+| `.env.local`        | `SANITY_API_READ_TOKEN`    | 비공개 dataset의 읽기 전용 Viewer 토큰 |
+| `studio/.env.local` | `SANITY_STUDIO_PROJECT_ID` | Studio에서 편집할 프로젝트             |
+| `studio/.env.local` | `SANITY_STUDIO_DATASET`    | Studio에서 편집할 dataset              |
 
 두 앱에는 같은 프로젝트와 dataset을 지정합니다. 루트 예시의 `SANITY_AUTH_TOKEN`은 배포 인증용 항목이며 현재 웹 콘텐츠 조회에는 사용하지 않습니다. 실제 토큰이 담긴 `.env.local` 파일은 Git에 포함하지 않습니다.
 
@@ -262,13 +262,13 @@ docker compose exec studio pnpm typecheck
 docker compose exec studio pnpm build
 ```
 
-| 명령 | 역할 |
-| --- | --- |
-| `pnpm lint` | ESLint 정적 분석 |
-| `pnpm format:check` | Prettier 포맷 검사 |
-| `pnpm check` | Astro·TypeScript 진단 |
-| `pnpm build` | 게시된 Sanity 콘텐츠로 정적 사이트 생성 |
-| `pnpm validate` | 위 네 검사를 순서대로 실행 |
+| 명령                | 역할                                    |
+| ------------------- | --------------------------------------- |
+| `pnpm lint`         | ESLint 정적 분석                        |
+| `pnpm format:check` | Prettier 포맷 검사                      |
+| `pnpm check`        | Astro·TypeScript 진단                   |
+| `pnpm build`        | 게시된 Sanity 콘텐츠로 정적 사이트 생성 |
+| `pnpm validate`     | 위 네 검사를 순서대로 실행              |
 
 GitHub Actions는 `main` 대상 PR, `main` push, 수동 실행에서 웹사이트의 `pnpm validate`를 수행합니다. 저장소 variables에 `SANITY_PROJECT_ID`, `SANITY_DATASET`을, secret에 `SANITY_API_READ_TOKEN`을 설정해야 합니다.
 
